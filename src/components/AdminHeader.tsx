@@ -23,35 +23,20 @@ const routeConfig: Record<string, { title: string; description: string; icon: Re
     description: 'Overview of your admin panel',
     icon: LayoutDashboard 
   },
-//   '/dashboard': { 
-//     title: 'Dashboard', 
-//     description: 'Overview of your admin panel',
-//     icon: LayoutDashboard 
-//   },
-  '/dashboard/transactions': { 
-    title: 'Transactions', 
-    description: 'Manage and monitor all transactions',
+  '/dashboard/orders': { 
+    title: 'Orders', 
+    description: 'Manage and monitor all orders',
     icon: CreditCard 
+  },
+  '/dashboard/products': { 
+    title: 'Products', 
+    description: 'Products management',
+    icon: Users 
   },
   '/dashboard/users': { 
     title: 'Users', 
     description: 'User management and administration',
     icon: Users 
-  },
-  '/dashboard/crypto_currencies': { 
-    title: 'Crypto Currencies', 
-    description: 'Manage cryptocurrency settings',
-    icon: Coins 
-  },
-  '/dashboard/currencies': { 
-    title: 'Currencies', 
-    description: 'Manage fiat currency settings',
-    icon: DollarSign 
-  },
-  '/dashboard/account_details': { 
-    title: 'Account Details', 
-    description: 'View and manage account information',
-    icon: FileText 
   },
 };
 
@@ -65,7 +50,7 @@ export default function AdminHeader({ userName = 'Admin', userRole = 'Administra
   
   // Get current route info or default to dashboard
   const currentRoute = routeConfig[pathname] || routeConfig['/admin/dashboard'];
-  const Icon = currentRoute.icon;
+  const Icon = currentRoute?.icon;
 
   // Generate breadcrumb from pathname
   const generateBreadcrumb = () => {
@@ -94,7 +79,7 @@ export default function AdminHeader({ userName = 'Admin', userRole = 'Administra
               {breadcrumb.map((item, index) => (
                 <div key={item.path} className="flex items-center">
                   {index > 0 && <ChevronRight size={14} className="mx-2 text-gray-400" />}
-                  <span className={item.isLast ? 'text-green-600 font-medium' : 'hover:text-gray-700'}>
+                  <span className={item.isLast ? 'text-orange-600 font-medium' : 'hover:text-gray-700'}>
                     {item.name}
                   </span>
                 </div>
@@ -103,12 +88,12 @@ export default function AdminHeader({ userName = 'Admin', userRole = 'Administra
             
             {/* Page Title */}
             <div className="flex items-center gap-3">
-              <div className="p-2 bg-green-100 rounded-lg">
-                <Icon size={24} className="text-green-600" />
+              <div className="p-2 bg-orange-100 rounded-lg">
+                <Icon size={24} className="text-orange-600" />
               </div>
               <div>
-                <h1 className="text-2xl font-bold text-gray-900">{currentRoute.title}</h1>
-                <p className="text-sm text-gray-600 mt-1">{currentRoute.description}</p>
+                <h1 className="text-2xl font-bold text-gray-900">{currentRoute?.title}</h1>
+                <p className="text-sm text-gray-600 mt-1">{currentRoute?.description}</p>
               </div>
             </div>
           </div>
@@ -121,7 +106,7 @@ export default function AdminHeader({ userName = 'Admin', userRole = 'Administra
               <input
                 type="text"
                 placeholder="Search..."
-                className="pl-10 pr-4 py-2 w-64 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent text-sm"
+                className="pl-10 pr-4 py-2 w-64 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent text-sm"
               />
             </div>
 

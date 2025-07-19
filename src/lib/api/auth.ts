@@ -1,49 +1,61 @@
 import axios from '../axios';
-import { User } from '@/types';
+import { User } from '../../types';
 
-export const registerUser = async (payload: { email: string; password: string }) => {
-  const res = await axios.post<User>('/auth/register', payload);
+interface RegisterPayload {
+  name: string;
+  email: string;
+  password: string;
+  phone?: string;
+  address?: {
+    street?: string;
+    city?: string;
+    state?: string;
+    postalCode?: string;
+    country?: string;
+  };
+}
+
+interface LoginPayload {
+  email: string;
+  password: string;
+}
+
+interface VerifyOtpPayload {
+  email: string;
+  otp: string;
+}
+
+interface AuthResponse {
+  token: string;
+}
+
+export const registerUser = async (payload: RegisterPayload) => {
+  const res = await axios.post<{ message: string }>('/auth/register', payload);
   return res.data;
 };
 
-export const loginUser = async (payload: { email: string; password: string }) => {
-  const res = await axios.post<{ token: string; message: string }>('/auth/login', payload);
+export const verifyOtp = async (payload: VerifyOtpPayload) => {
+  const res = await axios.post<{ message: string }>('/auth/verify-otp', payload);
   return res.data;
 };
 
-export const requestOtp = async (email: string) => {
-  const res = await axios.post('/auth/request-otp', { email });
+export const loginUser = async (payload: LoginPayload) => {
+  const res = await axios.post<AuthResponse>('/auth/login', payload);
   return res.data;
 };
 
-export const verifyOtp = async (email: string, otp: string) => {
-  const res = await axios.post('/auth/verify-otp', { email, otp });
+export const getUserProfile = async () => {
+  const res = await axios.get<User>('/auth/profile');
   return res.data;
 };
 
-export const getUsers = async ({
-  page = 1,
-  limit = 10,
-  search = '',
-}: {
-  page?: number;
-  limit?: number;
-  search?: string;
-}) => {
+export const getAllUsers = async (params?: { page?: number; limit?: number; search?: string }) => {
   const res = await axios.get<{
     users: User[];
     total: number;
     page: number;
     pages: number;
-  }>('/auth', {
-    params: { page, limit, search },
-  });
+  }>('/auth', { params });
   return res.data;
 };
 
-export const toggleVerification = async (userId: string) => {
-  const res = await axios.patch<{ message: string; user: User }>(
-    `/auth/${userId}/toggle-verification`
-  );
-  return res.data;
-};

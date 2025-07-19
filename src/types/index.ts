@@ -1,80 +1,101 @@
+export interface Address {
+  street?: string;
+  city?: string;
+  state?: string;
+  postalCode?: string;
+  country?: string;
+}
+
 export interface User {
-    _id: string;
-    email: string;
-    role?: 'admin' | 'user';
-    verified: boolean;
-}
-  
-export interface CryptoDTO {
-  _id?: any;
-  crypto: string;
-  network: string;
-  rate: number;
-  cryptoImage?: string;
-  networkImage?: string;
-  wallet: string;
-}
-
-export interface CurrencyDTO {
-  _id?: any;
+  _id: string;
   name: string;
-  code: string;
-  rate: number;
-  image?: string;
-  status: 'active' | 'inactive';
+  email: string;
+  phone?: string;
+  address?: Address;
+  role?: 'admin' | 'user';
+  verified: boolean;
 }
 
-export interface AccountDetailsDTO {
-  accountName: string;
-  accountNumber: string;
-  bankName: string;
+export interface Product {
+  _id: string;
+  name: string;
+  brand: string;
+  description: string;
+  price: number;
+  category: string;
+  image: string;
+  inStock: boolean;
+  rating: number; 
+  ratingCount: number; 
+  createdAt?: string;
+  updatedAt?: string;
 }
 
-export interface TransactionDTO {
-  _id?: any;
-  type: 'buy' | 'sell';
+export interface CartItem {
+  product: Product;
+  quantity: number;
+}
+
+export interface Cart {
+  _id: string;
   user: string;
-  status: 'pending' | 'completed' | 'cancelled';
-  walletSentTo?: string;
-  walletToReceive?: string;
-  accountSentTo?: AccountDetailsDTO;
-  accountToReceive?: AccountDetailsDTO;
-  cryptoCurrencyAmount?: number;
-  currencyAmount?: number;
-  conversionRateUsed?: number;
-  cryptoCurrency?: string;
-  network?: string;
-  currency?: string;
-  createdAt?: any;
-}
-
-export interface FetchTransactionsParams {
-  page?: number;
-  limit?: number;
-  id?: string;
-  user?: string;
-  status?: 'pending' | 'completed' | 'cancelled';
-  type?: 'buy' | 'sell';
-}
-
-export interface PaginationMeta {
-  page: number;
-  limit: number;
+  items: CartItem[];
   total: number;
-  totalPages: number;
+  createdAt: string;
+  updatedAt: string;
 }
 
-export interface TransactionResponse {
-  data: TransactionDTO[];
-  meta: PaginationMeta;
+export interface OrderItemPayload {
+  product: string; 
+  quantity: number;
 }
 
-export interface BankAccountDTO {
-  _id?: string;
-  accountName: string;
-  accountNumber: string;
-  bankName: string;
-  wallet: string;
-  currency: string;
-  network: string;
+export interface GuestInfoPayload {
+  name: string;
+  email: string;
+  phone: string;
+}
+
+export interface CreateOrderPayload {
+  user?: string; 
+  guestInfo?: GuestInfoPayload;
+  items: OrderItemPayload[];
+  total: number;
+  deliveryFee: number;
+  paymentMethod: 'card' | 'transfer' | 'cash';
+  proofOfPayment?: string;
+  address: string;
+  orderNote?: string;
+  deliveryDate?: string;
+}
+
+export interface UpdateOrderStatusPayload {
+  status?: 'ongoing' | 'successful' | 'cancelled' | 'failed';
+  paymentStatus?: 'pending' | 'paid' | 'failed';
+  feedBack?: string;
+  deliveryDate?: any;
+}
+
+export interface VerifyDeliveryCodePayload {
+  code: string;
+}
+
+export interface Order {
+  _id: string;
+  user?: string;
+  guestInfo?: GuestInfoPayload;
+  items: { product: Product; quantity: number }[];
+  total: number;
+  deliveryFee: number;
+  paymentMethod: string;
+  proofOfPayment?: string;
+  address: string;
+  orderNote?: string;
+  feedBack?: string;
+  deliveryDate?: string;
+  orderStatus: string;
+  paymentStatus: string;
+  verificationCode?: string;
+  createdAt: string;
+  updatedAt: string;
 }

@@ -100,3 +100,7 @@ div::-webkit-scrollbar, body::-webkit-scrollbar{
 input{
   color: black;
 }
+
+.image-white {
+  filter: brightness(0) invert(1);
+}

@@ -15,8 +15,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Admin Kudiswap",
-  description: "Admin Dashboard for kudiswap",
+  title: "Admin ZeeScent",
+  description: "Admin Dashboard for zeescent",
 };
 
 export default function RootLayout({
