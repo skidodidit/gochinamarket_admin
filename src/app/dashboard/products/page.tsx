@@ -358,7 +358,7 @@ export default function AdminProductPage() {
                     
                     <div className="mb-3">
                       <div className="flex items-center justify-between">
-                        <p className="text-xl font-bold text-amber-800">${product.price.toFixed(2)}</p>
+                        <p className="text-xl font-bold text-amber-800">N{product.price.toFixed(2)}</p>
                         <div className="flex items-center gap-1">
                           <span className="text-yellow-500">★</span>
                           <span className="text-gray-700 text-sm">{product.rating.toFixed(1)}</span>
