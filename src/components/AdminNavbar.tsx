@@ -1,20 +1,20 @@
-'use client';
+"use client";
 
-import React, { useEffect, useState } from 'react';
-import Link from 'next/link';
-import { usePathname, useRouter } from 'next/navigation';
-import { jwtDecode } from 'jwt-decode';
-import { 
-  LogOut, 
-  Menu, 
-  X, 
-  CreditCard, 
-  Users, 
-  Coins, 
-  DollarSign, 
+import React, { useEffect, useState } from "react";
+import Link from "next/link";
+import { usePathname, useRouter } from "next/navigation";
+import { jwtDecode } from "jwt-decode";
+import {
+  LogOut,
+  Menu,
+  X,
+  CreditCard,
+  Users,
+  Coins,
+  DollarSign,
   FileText,
-  LayoutDashboard 
-} from 'lucide-react';
+  LayoutDashboard,
+} from "lucide-react";
 
 type JwtPayload = {
   exp: number;
@@ -22,10 +22,10 @@ type JwtPayload = {
 };
 
 const links = [
-  { name: 'Dashboard', href: '/dashboard', icon: LayoutDashboard },
-  { name: 'Orders', href: '/dashboard/orders', icon: CreditCard },
-  { name: 'Products', href: '/dashboard/products', icon: CreditCard },
-  { name: 'Users', href: '/dashboard/users', icon: Users },
+  { name: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
+  { name: "Orders", href: "/dashboard/orders", icon: CreditCard },
+  { name: "Products", href: "/dashboard/products", icon: CreditCard },
+  { name: "Users", href: "/dashboard/users", icon: Users },
 ];
 
 export default function AdminNavbar() {
@@ -34,10 +34,10 @@ export default function AdminNavbar() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   useEffect(() => {
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem("token");
 
     if (!token) {
-      router.push('/');
+      router.push("/");
       return;
     }
 
@@ -46,19 +46,19 @@ export default function AdminNavbar() {
       const isExpired = decoded.exp * 1000 < Date.now();
 
       if (isExpired) {
-        localStorage.removeItem('token');
-        router.push('/');
+        localStorage.removeItem("token");
+        router.push("/");
       }
     } catch (err) {
-      console.error('Invalid token:', err);
-      localStorage.removeItem('token');
-      router.push('/');
+      console.error("Invalid token:", err);
+      localStorage.removeItem("token");
+      router.push("/");
     }
   }, []);
 
   const handleLogout = () => {
-    localStorage.removeItem('token');
-    router.push('/');
+    localStorage.removeItem("token");
+    router.push("/");
   };
 
   const toggleSidebar = () => {
@@ -68,9 +68,8 @@ export default function AdminNavbar() {
   return (
     <>
       {/* Mobile Header */}
-      <div className="lg:hidden bg-orange-900 text-white px-4 py-3 flex justify-between items-center shadow-lg">
-        <h2 className="text-lg font-bold">Admin Dashboard</h2>
-        <button
+      <div className="lg:hidden bg-orange-900 text-white px-4 py-3 flex justify-between items-center shadow-lg fixed z-40 right-0 top-5">
+        <button 
           onClick={toggleSidebar}
           className="p-2 rounded-md hover:bg-green-800 transition-colors"
         >
@@ -81,7 +80,7 @@ export default function AdminNavbar() {
       {/* Mobile Overlay */}
       {isSidebarOpen && (
         <div
-          className="fixed inset-0 bg-black bg-opacity-50 z-40 lg:hidden"
+          className="fixed inset-0 bg-black/40 backdrop-blur-sm z-40 lg:hidden"
           onClick={() => setIsSidebarOpen(false)}
         />
       )}
@@ -89,7 +88,7 @@ export default function AdminNavbar() {
       {/* Sidebar */}
       <nav
         className={`fixed left-0 top-0 h-full w-64 bg-gradient-to-br from-black via-orange-800 to-black text-white shadow-2xl transform transition-transform duration-300 z-50 lg:translate-x-0 ${
-          isSidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'
+          isSidebarOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"
         }`}
       >
         {/* Header */}
@@ -119,7 +118,7 @@ export default function AdminNavbar() {
             {links.map((link) => {
               const Icon = link.icon;
               const isActive = pathname === link.href;
-              
+
               return (
                 <li key={link.href}>
                   <Link
@@ -127,8 +126,8 @@ export default function AdminNavbar() {
                     onClick={() => setIsSidebarOpen(false)}
                     className={`flex items-center gap-3 px-4 py-3.5 rounded-xl transition-all duration-200 group relative overflow-hidden ${
                       isActive
-                        ? 'bg-orange-600/40 text-white shadow-lg backdrop-blur-sm border border-orange-500/30'
-                        : 'text-orange-100 hover:bg-orange-700/60 hover:text-white hover:shadow-md'
+                        ? "bg-orange-600/40 text-white shadow-lg backdrop-blur-sm border border-orange-500/30"
+                        : "text-orange-100 hover:bg-orange-700/60 hover:text-white hover:shadow-md"
                     }`}
                   >
                     {isActive && (
@@ -137,7 +136,9 @@ export default function AdminNavbar() {
                     <Icon
                       size={19}
                       className={`transition-all duration-200 ${
-                        isActive ? 'text-orange-200 scale-110' : 'text-orange-300 group-hover:text-orange-200 group-hover:scale-105'
+                        isActive
+                          ? "text-orange-200 scale-110"
+                          : "text-orange-300 group-hover:text-orange-200 group-hover:scale-105"
                       }`}
                     />
                     <span className="font-medium text-sm">{link.name}</span>

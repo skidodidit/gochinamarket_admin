@@ -69,7 +69,7 @@ export default function AdminHeader({ userName = 'Admin', userRole = 'Administra
   const breadcrumb = generateBreadcrumb();
 
   return (
-    <header className="bg-white border-b border-gray-200 shadow-sm fixed w-full top-0 z-50">
+    <header className="bg-white border-b border-gray-200 shadow-sm fixed w-full top-0 z-20">
       <div className="px-6 py-4">
         <div className="flex items-center justify-between">
           {/* Left Section - Title and Breadcrumb */}
@@ -99,36 +99,7 @@ export default function AdminHeader({ userName = 'Admin', userRole = 'Administra
           </div>
 
           {/* Right Section - Search, Notifications, Profile */}
-          <div className="flex items-center gap-4">
-            {/* Search Bar */}
-            <div className="hidden md:flex relative">
-              <Search size={18} className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
-              <input
-                type="text"
-                placeholder="Search..."
-                className="pl-10 pr-4 py-2 w-64 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent text-sm"
-              />
-            </div>
-
-            {/* Mobile Search Button */}
-            <button className="md:hidden p-2 rounded-lg hover:bg-gray-100 transition-colors">
-              <Search size={20} className="text-gray-600" />
-            </button>
-
-            {/* Notifications */}
-            <div className="relative">
-              <button className="p-2 rounded-lg hover:bg-gray-100 transition-colors relative">
-                <Bell size={20} className="text-gray-600" />
-                <span className="absolute -top-1 -right-1 w-5 h-5 bg-red-500 text-white text-xs rounded-full flex items-center justify-center">
-                  3
-                </span>
-              </button>
-            </div>
-
-            {/* Settings */}
-            <button className="p-2 rounded-lg hover:bg-gray-100 transition-colors">
-              <Settings size={20} className="text-gray-600" />
-            </button>
+          <div className="flex items-center gap-2">
 
             {/* User Profile */}
             <div className="flex items-center gap-3 pl-4 border-l border-gray-200">
