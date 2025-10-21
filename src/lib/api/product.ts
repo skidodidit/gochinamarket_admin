@@ -1,75 +1,65 @@
-import axios from '../axios';
+import instance from '../axios';
 import { Product } from '../../types';
 
-interface CreateProductPayload {
+interface ProductPayload {
   name: string;
-  brand: string;
   description: string;
   price: number;
-  category: string;
-  image?: string;
-  inStock?: boolean;
-  rating: number; 
-  ratingCount: number; 
+  category?: string;
+  images?: string[];
+  videos?: string[];
+  stock?: number;
 }
 
-interface UpdateProductPayload extends Partial<CreateProductPayload> {}
+interface GetProductsParams {
+  page?: number;
+  limit?: number;
+  search?: string;
+  sortBy?: string;
+  sortOrder?: 'asc' | 'desc';
+  category?: string;
+  brand?: string;
+  minPrice?: number;
+  maxPrice?: number;
+  inStock?: boolean;
+  isBanner?: boolean;
+  minRating?: number;
+  discounted?: boolean;
+}
 
-export const createProduct = async (payload: CreateProductPayload & { imageFile?: File }) => {
-  const formData = new FormData();
-
-  formData.append('name', payload.name);
-  formData.append('brand', payload.brand);
-  formData.append('description', payload.description);
-  formData.append('price', payload.price.toString());
-  formData.append('category', payload.category);
-  formData.append('rating', payload.rating.toString());
-  formData.append('ratingCount', payload.ratingCount.toString());
-
-  if (payload.inStock !== undefined) {
-    formData.append('inStock', String(payload.inStock));
-  }
-
-  if (payload.image) {
-    formData.append('image', payload.image); 
-  }
-
-  const res = await axios.post<Product>('/products', formData, {
-    headers: {
-      'Content-Type': 'multipart/form-data',
-    },
-  });
-
+export const createProduct = async (data: ProductPayload) => {
+  const res = await instance.post<Product>('/products', data);
   return res.data;
 };
 
-
-export const getAllProducts = async (params?: { page?: number; limit?: number; search?: string }) => {
-  const res = await axios.get<{
-    products: Product[];
-    total: number;
-    page: number;
-    pages: number;
-  }>('/products', { params });
+export const getAllProducts = async (params?: GetProductsParams) => {
+  const res = await instance.get<{ data: Product[]; total: number }>('/products', { params });
   return res.data;
 };
 
 export const getProductById = async (id: string) => {
-  const res = await axios.get<Product>(`/products/${id}`);
+  const res = await instance.get<Product>(`/products/${id}`);
   return res.data;
 };
 
-export const updateProduct = async (id: string, payload: UpdateProductPayload) => {
-  const res = await axios.put<Product>(`/products/${id}`, payload);
+export const updateProduct = async (
+  id: string,
+  data: Partial<ProductPayload> & {
+    action?: 'add' | 'remove';
+    mediaType?: 'images' | 'videos';
+    mediaIds?: string[];
+  }
+) => {
+  const res = await instance.put<Product>(`/products/${id}`, data);
   return res.data;
 };
 
 export const deleteProduct = async (id: string) => {
-  const res = await axios.delete<{ message: string }>(`/products/${id}`);
+  const res = await instance.delete<{ message: string }>(`/products/${id}`);
   return res.data;
 };
 
 export const getTopRatedProducts = async () => {
-  const res = await axios.get<Product[]>('/products/top-rated');
+  const res = await instance.get<Product[]>('/products/top-rated');
   return res.data;
 };

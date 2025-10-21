@@ -38,6 +38,21 @@ const routeConfig: Record<string, { title: string; description: string; icon: Re
     description: 'User management and administration',
     icon: Users 
   },
+  '/dashboard/about': { 
+    title: 'About Us Details', 
+    description: 'Manage and edit about us details',
+    icon: Users 
+  },
+  '/dashboard/contact': { 
+    title: 'Contact Details', 
+    description: 'Set Contact details to be reached on',
+    icon: Users 
+  },
+  '/dashboard/settings': { 
+    title: 'Settings', 
+    description: 'Set app values',
+    icon: Users 
+  },
 };
 
 interface AdminHeaderProps {
@@ -79,8 +94,8 @@ export default function AdminHeader({ userName = 'Admin', userRole = 'Administra
               {breadcrumb.map((item, index) => (
                 <div key={item.path} className="flex items-center">
                   {index > 0 && <ChevronRight size={14} className="mx-2 text-gray-400" />}
-                  <span className={item.isLast ? 'text-orange-600 font-medium' : 'hover:text-gray-700'}>
-                    {item.name}
+                  <span className={item.isLast ? 'text-black font-medium' : 'hover:text-gray-700'}>
+                    /{item.name}
                   </span>
                 </div>
               ))}
@@ -88,8 +103,8 @@ export default function AdminHeader({ userName = 'Admin', userRole = 'Administra
             
             {/* Page Title */}
             <div className="flex items-center gap-3">
-              <div className="p-2 bg-orange-100 rounded-lg">
-                <Icon size={24} className="text-orange-600" />
+              <div className="p-2 bg-primary-100 rounded-lg">
+                {/* <Icon size={24} className="text-black" /> */}
               </div>
               <div>
                 <h1 className="text-2xl font-bold text-gray-900">{currentRoute?.title}</h1>
@@ -100,17 +115,6 @@ export default function AdminHeader({ userName = 'Admin', userRole = 'Administra
 
           {/* Right Section - Search, Notifications, Profile */}
           <div className="flex items-center gap-2">
-
-            {/* User Profile */}
-            <div className="flex items-center gap-3 pl-4 border-l border-gray-200">
-              <div className="hidden sm:block text-right">
-                <p className="text-sm font-medium text-gray-900">{userName}</p>
-                <p className="text-xs text-gray-500">{userRole}</p>
-              </div>
-              <div className="w-10 h-10 bg-green-600 rounded-full flex items-center justify-center">
-                <User size={20} className="text-white" />
-              </div>
-            </div>
           </div>
         </div>
       </div>

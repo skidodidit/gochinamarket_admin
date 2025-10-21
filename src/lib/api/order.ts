@@ -1,64 +1,55 @@
-import axios from '../axios';
-import { Product, CreateOrderPayload, Order, UpdateOrderStatusPayload, VerifyDeliveryCodePayload } from '../../types';
+import instance from '../axios';
+import { Order, PaginatedOrders } from '../../types';
 
+interface OrderItemPayload {
+  product: string;
+  quantity: number;
+  price: number;
+}
+
+interface CreateOrderPayload {
+  items: OrderItemPayload[];
+  address: {
+    name: string;
+    phone: string;
+    street: string;
+    city: string;
+    state: string;
+    country: string;
+    postalCode?: string;
+  };
+  paymentMethod: 'card' | 'transfer' | 'cod';
+  guestId?: string;
+}
 
 export const createOrder = async (payload: CreateOrderPayload) => {
-  const res = await axios.post<Order>('/order', payload);
+  const res = await instance.post<Order>('/orders', payload);
   return res.data;
 };
 
-// Get a specific order by ID
-export const getOrderById = async (orderId: string) => {
-  const res = await axios.get<Order>(`/order/${orderId}`);
+export const getUserOrders = async (page = 1, limit = 10) => {
+  const res = await instance.get<PaginatedOrders>(`/orders/my`, {
+    params: { page, limit },
+  });
   return res.data;
 };
 
-// Get paginated orders for a user
-export const getUserOrders = async (
-  userId: string,
-  params?: { status?: string; page?: number; limit?: number }
-) => {
-  const res = await axios.get<{
-    orders: Order[];
-    total: number;
-    page: number;
-    pages: number;
-  }>(`/order/user/${userId}`, { params });
+export const getAdminOrders = async (params: {
+  page?: number;
+  limit?: number;
+  search?: string;
+  status?: string;
+}) => {
+  const res = await instance.get<PaginatedOrders>('/orders', { params });
   return res.data;
 };
 
-// Get all orders (Admin)
-export const getAllOrders = async (
-  params?: { status?: string; page?: number; limit?: number }
-) => {
-  const res = await axios.get<{
-    orders: Order[];
-    total: number;
-    page: number;
-    pages: number;
-  }>('/order/all', { params });
+export const updateOrderStatus = async (id: string, status: string) => {
+  const res = await instance.patch(`/orders/${id}/status`, { status });
   return res.data;
 };
 
-// Delete an order
-export const deleteOrder = async (orderId: string) => {
-  await axios.delete(`/order/${orderId}`);
-};
-
-// Admin or system: Update order status and/or payment status
-export const updateOrderStatus = async (
-  orderId: string,
-  payload: UpdateOrderStatusPayload
-) => {
-  const res = await axios.put<Order>(`/order/${orderId}/status`, payload);
-  return res.data;
-};
-
-// Verify delivery code (user gives delivery agent code)
-export const verifyDeliveryCode = async (
-  orderId: string,
-  payload: VerifyDeliveryCodePayload
-) => {
-  const res = await axios.post<Order>(`/order/${orderId}/verify`, payload);
+export const verifyDeliveryCode = async (id: string, code: string) => {
+  const res = await instance.post(`/orders/${id}/verify-delivery`, { code });
   return res.data;
 };

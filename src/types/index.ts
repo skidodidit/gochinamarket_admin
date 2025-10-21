@@ -1,101 +1,183 @@
-export interface Address {
-  street?: string;
-  city?: string;
-  state?: string;
-  postalCode?: string;
-  country?: string;
-}
-
-export interface User {
+// ------------------ MEDIA ------------------
+export interface Media {
   _id: string;
-  name: string;
-  email: string;
-  phone?: string;
-  address?: Address;
-  role?: 'admin' | 'user';
-  verified: boolean;
+  url: string;
+  resource_type: 'image' | 'video';
+  format?: string;
+  createdAt?: string;
+  updatedAt?: string;
 }
 
+// ------------------ PRODUCT ------------------
 export interface Product {
   _id: string;
   name: string;
   brand: string;
   description: string;
   price: number;
-  category: string;
-  image: string;
+  discount?: number;
+  category: any;
+  images: Media[];
+  videos?: Media[];
   inStock: boolean;
-  rating: number; 
-  ratingCount: number; 
+  isBanner: boolean;
+  bannerText?: string;
+  rating: number;
+  reviews: number;
+  ratingCount: number;
   createdAt?: string;
   updatedAt?: string;
 }
 
+// ------------------ SETTINGS ------------------
+export interface Settings {
+  _id?: string;
+  siteName?: string;
+  tagline?: string;
+  bannerText?: string;
+  supportEmail?: string;
+  supportPhone?: string;
+  logoUrl?: string;
+  faviconUrl?: string;
+  currencySymbol?: string;
+  currencyCode?: string;
+  maintenanceMode?: boolean;
+  seo?: {
+    title?: string;
+    description?: string;
+    keywords?: string[];
+  };
+  shippingInfo?: string;
+  taxInfo?: string;
+  customFields?: Record<string, string>;
+  createdAt?: string;
+  updatedAt?: string;
+}
+
+// ------------------ CATEGORY ------------------
+export interface Category {
+  _id?: string;
+  name: string;
+  description?: string;
+  image?: string;
+  isActive?: boolean;
+  createdAt?: string;
+  updatedAt?: string;
+}
+
+
+// ------------------ ABOUT ------------------
+export interface About {
+  _id?: string;
+  title: string;
+  description: string;
+  mission?: string;
+  vision?: string;
+  values?: string[];
+  bannerImage?: string;
+  videoUrl?: string;
+  highlights?: {
+    label: string;
+    value: string;
+  }[];
+  createdAt?: string;
+  updatedAt?: string;
+}
+
+// ------------------ CONTACT ------------------
+export interface Contact {
+  _id?: string;
+  email: string;
+  phone?: string;
+  address?: string;
+  whatsapp?: string;
+  instagram?: string;
+  youtube?: string;
+  tiktok?: string;
+  twitter?: string;
+  facebook?: string;
+  createdAt?: string;
+  updatedAt?: string;
+}
+
+// ------------------ USER ------------------
+export interface User {
+  _id: string;
+  name: string;
+  email: string;
+  phone?: string;
+  verified: boolean;
+  role: 'user' | 'admin';
+  address?: Address;
+  createdAt?: string;
+  updatedAt?: string;
+}
+
+export interface Address {
+  street: string;
+  city: string;
+  state: string;
+  postalCode?: string;
+  country: string;
+}
+
+// ------------------ CART ------------------
 export interface CartItem {
   product: Product;
   quantity: number;
 }
 
 export interface Cart {
-  _id: string;
-  user: string;
+  _id?: string;
+  user?: string;
+  guestId?: string;
   items: CartItem[];
-  total: number;
-  createdAt: string;
-  updatedAt: string;
+  createdAt?: string;
+  updatedAt?: string;
 }
 
-export interface OrderItemPayload {
-  product: string; 
+// ------------------ ORDER ------------------
+export interface OrderItem {
+  product: Product;
   quantity: number;
+  price: number;
 }
 
-export interface GuestInfoPayload {
+export interface OrderAddress {
   name: string;
-  email: string;
   phone: string;
+  street: string;
+  city: string;
+  state: string;
+  country: string;
+  postalCode?: string;
 }
 
-export interface CreateOrderPayload {
-  user?: string; 
-  guestInfo?: GuestInfoPayload;
-  items: OrderItemPayload[];
-  total: number;
-  deliveryFee: number;
-  paymentMethod: 'card' | 'transfer' | 'cash';
-  proofOfPayment?: string;
-  address: string;
-  orderNote?: string;
-  deliveryDate?: string;
-}
-
-export interface UpdateOrderStatusPayload {
-  status?: 'ongoing' | 'successful' | 'cancelled' | 'failed';
-  paymentStatus?: 'pending' | 'paid' | 'failed';
-  feedBack?: string;
-  deliveryDate?: any;
-}
-
-export interface VerifyDeliveryCodePayload {
-  code: string;
-}
+export type OrderStatus = 'pending' | 'confirmed' | 'shipped' | 'delivered' | 'cancelled';
+export type PaymentStatus = 'unpaid' | 'paid' | 'refunded';
+export type PaymentMethod = 'card' | 'transfer' | 'cod';
 
 export interface Order {
   _id: string;
-  user?: string;
-  guestInfo?: GuestInfoPayload;
-  items: { product: Product; quantity: number }[];
+  user?: User;
+  guestId?: string;
+  items: OrderItem[];
+  subtotal: number;
+  shippingFee: number;
   total: number;
-  deliveryFee: number;
-  paymentMethod: string;
-  proofOfPayment?: string;
-  address: string;
-  orderNote?: string;
-  feedBack?: string;
-  deliveryDate?: string;
-  orderStatus: string;
-  paymentStatus: string;
-  verificationCode?: string;
-  createdAt: string;
-  updatedAt: string;
+  status: OrderStatus;
+  paymentStatus: PaymentStatus;
+  paymentMethod: PaymentMethod;
+  address: OrderAddress;
+  deliveryCode: string;
+  deliveredAt?: string;
+  createdAt?: string;
+  updatedAt?: string;
+}
+
+export interface PaginatedOrders {
+  orders: Order[];
+  total: number;
+  page: number;
+  pages: number;
 }

@@ -29,8 +29,26 @@ interface AuthResponse {
   token: string;
 }
 
+interface UpdateUserPayload {
+  name?: string;
+  phone?: string;
+  password?: string;
+  address?: {
+    street?: string;
+    city?: string;
+    state?: string;
+    postalCode?: string;
+    country?: string;
+  };
+}
+
 export const registerUser = async (payload: RegisterPayload) => {
   const res = await axios.post<{ message: string }>('/auth/register', payload);
+  return res.data;
+};
+
+export const resendOtp = async (email: any) => {
+  const res = await axios.post<{ message: string }>('/auth/resend-otp', { email });
   return res.data;
 };
 
@@ -56,6 +74,11 @@ export const getAllUsers = async (params?: { page?: number; limit?: number; sear
     page: number;
     pages: number;
   }>('/auth', { params });
+  return res.data;
+};
+
+export const updateUserProfile = async (payload: UpdateUserPayload) => {
+  const res = await axios.put<{ message: string; user: User }>('/auth/profile', payload);
   return res.data;
 };
 

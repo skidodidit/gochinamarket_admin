@@ -3,7 +3,7 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
-  --primary-100: #11502f;
+  --primary-100: #30d9dc;
 }
 
 @theme inline {
@@ -51,9 +51,9 @@ div::-webkit-scrollbar, body::-webkit-scrollbar{
 }
 
 .Toastify__toast--success {
-  background: #1BF3BA;
+  background: #30d9dc;
   color: #000000;
-  border-left: 1px solid #1BF3BA;
+  border-left: 1px solid #30d9dc;
 }
 
 .Toastify__toast--error {
@@ -101,6 +101,8 @@ input{
   color: black;
 }
 
-.image-white {
-  filter: brightness(0) invert(1);
+@media (max-width: 767px) {
+  .desktop-visibility{
+    display: none
+  }
 }

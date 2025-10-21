@@ -10,10 +10,12 @@ import {
   X,
   CreditCard,
   Users,
-  Coins,
-  DollarSign,
-  FileText,
+  Settings,
+  Box,
+  Phone,
   LayoutDashboard,
+  Group,
+  List
 } from "lucide-react";
 
 type JwtPayload = {
@@ -24,8 +26,12 @@ type JwtPayload = {
 const links = [
   { name: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
   { name: "Orders", href: "/dashboard/orders", icon: CreditCard },
-  { name: "Products", href: "/dashboard/products", icon: CreditCard },
+  { name: "Products", href: "/dashboard/products", icon: Box },
   { name: "Users", href: "/dashboard/users", icon: Users },
+  { name: "About Details", href: "/dashboard/about", icon: Group },
+  { name: "Contact Details", href: "/dashboard/contact", icon: Phone },
+  { name: "Categories", href: "/dashboard/categories", icon: List },
+  { name: "Website Settings", href: "/dashboard/settings", icon: Settings },
 ];
 
 export default function AdminNavbar() {
@@ -68,12 +74,12 @@ export default function AdminNavbar() {
   return (
     <>
       {/* Mobile Header */}
-      <div className="lg:hidden bg-orange-900 text-white px-4 py-3 flex justify-between items-center shadow-lg fixed z-40 right-0 top-5">
+      <div className="lg:hidden bg-primary-100 text-black p-1 flex justify-between items-center rounded-lg fixed z-40 right-2 top-8">
         <button 
           onClick={toggleSidebar}
-          className="p-2 rounded-md hover:bg-green-800 transition-colors"
+          className="p-2 rounded-md hover:bg-opacity-60 transition-colors"
         >
-          <Menu size={20} />
+          <Menu size={16} />
         </button>
       </div>
 
@@ -87,25 +93,25 @@ export default function AdminNavbar() {
 
       {/* Sidebar */}
       <nav
-        className={`fixed left-0 top-0 h-full w-64 bg-gradient-to-br from-black via-orange-800 to-black text-white shadow-2xl transform transition-transform duration-300 z-50 lg:translate-x-0 ${
+        className={`fixed left-0 top-0 h-full w-64 bg-gradient-to-br from-primary-100 via-primary-100 to-primary-100 text-white shadow-2xl transform transition-transform duration-300 z-50 lg:translate-x-0 ${
           isSidebarOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"
         }`}
       >
         {/* Header */}
-        <div className="p-6 border-b border-orange-700/50 bg-orange-800/30">
+        <div className="p-6 border-b border-white/60 bg-white/20">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <div className="w-8 h-8 bg-orange-500 rounded-lg flex items-center justify-center">
-                <LayoutDashboard size={18} className="text-white" />
+              <div className="w-8 h-8 bg-primary-100 rounded-lg flex items-center justify-center">
+                <LayoutDashboard size={18} className="text-black" />
               </div>
               <div>
-                <h2 className="text-xl font-bold text-white">Admin Panel</h2>
-                <p className="text-white text-xs">Management Console</p>
+                <h2 className="text-xl font-bold text-black">Admin Panel</h2>
+                <p className="text-black text-xs">Management Console</p>
               </div>
             </div>
             <button
               onClick={toggleSidebar}
-              className="lg:hidden p-2 rounded-lg hover:bg-green-700/50 transition-colors"
+              className="lg:hidden p-2 rounded-lg hover:bg-primary-100/50 transition-colors"
             >
               <X size={18} />
             </button>
@@ -126,8 +132,8 @@ export default function AdminNavbar() {
                     onClick={() => setIsSidebarOpen(false)}
                     className={`flex items-center gap-3 px-4 py-3.5 rounded-xl transition-all duration-200 group relative overflow-hidden ${
                       isActive
-                        ? "bg-orange-600/40 text-white shadow-lg backdrop-blur-sm border border-orange-500/30"
-                        : "text-orange-100 hover:bg-orange-700/60 hover:text-white hover:shadow-md"
+                        ? "bg-white/20 text-black shadow-lg backdrop-blur-sm border border-white/60"
+                        : "text-black hover:bg-white/60 hover:text-black hover:shadow-md"
                     }`}
                   >
                     {isActive && (
@@ -137,13 +143,13 @@ export default function AdminNavbar() {
                       size={19}
                       className={`transition-all duration-200 ${
                         isActive
-                          ? "text-orange-200 scale-110"
-                          : "text-orange-300 group-hover:text-orange-200 group-hover:scale-105"
+                          ? "text-black scale-110"
+                          : "text-black group-hover:text-black group-hover:scale-105"
                       }`}
                     />
                     <span className="font-medium text-sm">{link.name}</span>
                     {isActive && (
-                      <div className="ml-auto w-2 h-2 bg-orange-400 rounded-full animate-pulse"></div>
+                      <div className="ml-auto w-2 h-2 bg-black rounded-full animate-pulse"></div>
                     )}
                   </Link>
                 </li>
@@ -153,16 +159,16 @@ export default function AdminNavbar() {
         </div>
 
         {/* Logout Button */}
-        <div className="p-4 border-t border-black/70 bg-black/50">
+        <div className="p-4 border-t border-white/70 bg-white/20">
           <button
             onClick={handleLogout}
             className="flex items-center gap-3 w-full px-4 py-3.5 text-red-300 hover:bg-red-900/30 hover:text-red-200 rounded-xl transition-all duration-200 group border border-transparent hover:border-red-500/30"
           >
             <LogOut
               size={19}
-              className="text-red-400 group-hover:text-red-300 transition-all duration-200 group-hover:scale-105"
+              className="text-red-800 group-hover:text-red-300 transition-all duration-200 group-hover:scale-105"
             />
-            <span className="font-medium text-sm">Logout</span>
+            <span className="font-medium text-sm text-red-500">Logout</span>
           </button>
         </div>
       </nav>

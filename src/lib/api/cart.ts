@@ -1,4 +1,4 @@
-import axios from '../axios';
+import instance from '../axios';
 import { Cart } from '../../types';
 
 interface CartItemPayload {
@@ -7,20 +7,32 @@ interface CartItemPayload {
 }
 
 interface CreateOrUpdateCartPayload {
-  user: string;
   items: CartItemPayload[];
+  guestId?: string;
 }
 
-export const getCart = async (userId: string) => {
-  const res = await axios.get<Cart>(`/cart/${userId}`);
+export const getCart = async (guestId?: string) => {
+  const res = await instance.get<Cart>(`/cart`, {
+    params: guestId ? { guestId } : {},
+  });
   return res.data;
 };
 
-export const createOrUpdateCart = async (payload: CreateOrUpdateCartPayload) => {
-  const res = await axios.post<Cart>('/cart', payload);
+export const addOrUpdateCart = async (payload: CreateOrUpdateCartPayload) => {
+  const res = await instance.post<Cart>(`/cart`, payload);
   return res.data;
 };
 
-export const clearCart = async (userId: string) => {
-  await axios.delete(`/cart/${userId}`);
+export const removeCartItem = async (productId: string, guestId?: string) => {
+  const res = await instance.delete(`/cart/${productId}`, {
+    params: guestId ? { guestId } : {},
+  });
+  return res.data;
+};
+
+export const clearCart = async (guestId?: string) => {
+  const res = await instance.delete(`/cart`, {
+    params: guestId ? { guestId } : {},
+  });
+  return res.data;
 };
