@@ -41,7 +41,6 @@ export default function ProductModal({
   updateLoading,
   uploadingMedia
 }: ProductModalProps) {
-  console.log(isEditing)
   return (
     <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4 z-50 touch-none" onClick={handleCancel}>
       <div className="bg-white touch-none rounded-xl w-full max-w-4xl max-h-[90vh] overflow-y-auto" onClick={(e) => e.stopPropagation()}>
@@ -92,16 +91,13 @@ export default function ProductModal({
             </div>
 
             <div>
-              <label className="block text-gray-700 text-sm font-semibold mb-2">
-                Category *
-              </label>
+              <label className="block text-gray-700 text-sm font-semibold mb-2">Category *</label>
               <select
                 name="category"
                 value={formData.category}
                 onChange={handleInputChange}
                 required
-                className="w-full px-4 py-3 bg-gray-50 border border-gray-300 rounded-lg text-gray-800 
-      focus:outline-none focus:border-primary-100 focus:ring-2 focus:ring-primary-100 transition-all"
+                className="w-full px-4 py-3 bg-gray-50 border border-gray-300 rounded-lg text-gray-800 focus:outline-none focus:border-primary-100 focus:ring-2 focus:ring-primary-100 transition-all"
               >
                 <option value="">Select category</option>
                 {categories?.map((cat) => (
@@ -172,6 +168,19 @@ export default function ProductModal({
               />
             </div>
 
+            <div>
+              <label className="block text-gray-700 text-sm font-semibold mb-2">Reviews Count</label>
+              <input
+                type="number"
+                name="reviews"
+                value={formData.reviews || 0}
+                onChange={handleInputChange}
+                min="0"
+                className="w-full px-4 py-3 bg-gray-50 border border-gray-300 rounded-lg text-gray-800 placeholder-gray-400 focus:outline-none focus:border-primary-100 focus:ring-2 focus:ring-primary-100 transition-all"
+                placeholder="Enter reviews count"
+              />
+            </div>
+
             <div className="md:col-span-2">
               <label className="block text-gray-700 text-sm font-semibold mb-2">Description *</label>
               <textarea
@@ -197,7 +206,6 @@ export default function ProductModal({
                 className="w-full px-4 py-3 bg-gray-50 border border-gray-300 rounded-lg text-gray-800 focus:outline-none focus:border-primary-100 focus:ring-2 focus:ring-primary-100 transition-all file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:bg-primary-100/40 file:text-black hover:file:bg-primary-100"
               />
 
-              {/* Existing Images (when editing) */}
               {isEditing && selectedProduct && selectedProduct.images.length > 0 && (
                 <div className="mt-4">
                   <p className="text-sm text-gray-600 mb-2 font-medium">Current Images:</p>
@@ -224,7 +232,6 @@ export default function ProductModal({
                 </div>
               )}
 
-              {/* New Image Previews */}
               {imagePreviews.length > 0 && (
                 <div className="mt-4">
                   <p className="text-sm text-gray-600 mb-2 font-medium">New Images to Upload:</p>
@@ -263,7 +270,6 @@ export default function ProductModal({
                 className="w-full px-4 py-3 bg-gray-50 border border-gray-300 rounded-lg text-gray-800 focus:outline-none focus:border-primary-100 focus:ring-2 focus:ring-primary-100 transition-all file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:bg-purple-50 file:text-purple-700 hover:file:bg-purple-100"
               />
 
-              {/* Existing Videos (when editing) */}
               {isEditing && selectedProduct && selectedProduct.videos && selectedProduct.videos.length > 0 && (
                 <div className="mt-4">
                   <p className="text-sm text-gray-600 mb-2 font-medium">Current Videos:</p>
@@ -290,7 +296,6 @@ export default function ProductModal({
                 </div>
               )}
 
-              {/* New Video Previews */}
               {videoPreviews.length > 0 && (
                 <div className="mt-4">
                   <p className="text-sm text-gray-600 mb-2 font-medium">New Videos to Upload:</p>
@@ -316,6 +321,33 @@ export default function ProductModal({
                   </div>
                 </div>
               )}
+            </div>
+
+            {/* Product Status Checkboxes */}
+            <div className="md:col-span-2 border-t border-gray-200 pt-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <label className="flex items-center">
+                  <input
+                    type="checkbox"
+                    name="inStock"
+                    checked={formData.inStock}
+                    onChange={handleInputChange}
+                    className="mr-2 h-4 w-4 text-black focus:ring-primary-100 border-gray-300 rounded"
+                  />
+                  <span className="text-gray-700 text-sm font-semibold">In Stock</span>
+                </label>
+
+                <label className="flex items-center">
+                  <input
+                    type="checkbox"
+                    name="secondHand"
+                    checked={formData.secondHand}
+                    onChange={handleInputChange}
+                    className="mr-2 h-4 w-4 text-black focus:ring-primary-100 border-gray-300 rounded"
+                  />
+                  <span className="text-gray-700 text-sm font-semibold">Second Hand</span>
+                </label>
+              </div>
             </div>
 
             {/* Banner Settings */}
@@ -346,18 +378,60 @@ export default function ProductModal({
               )}
             </div>
 
-            {/* Stock Status */}
-            <div className="md:col-span-2">
-              <label className="flex items-center">
+            {/* Ad Settings */}
+            <div className="md:col-span-2 border-t border-gray-200 pt-4">
+              <label className="flex items-center mb-3">
                 <input
                   type="checkbox"
-                  name="inStock"
-                  checked={formData.inStock}
+                  name="isAd"
+                  checked={formData.isAd}
                   onChange={handleInputChange}
                   className="mr-2 h-4 w-4 text-black focus:ring-primary-100 border-gray-300 rounded"
                 />
-                <span className="text-gray-700 text-sm font-semibold">In Stock</span>
+                <span className="text-gray-700 text-sm font-semibold">Display as Advertisement</span>
               </label>
+
+              {formData.isAd && (
+                <div>
+                  <label className="block text-gray-700 text-sm font-semibold mb-2">Ad Text (Optional)</label>
+                  <input
+                    type="text"
+                    name="adText"
+                    value={formData.adText}
+                    onChange={handleInputChange}
+                    className="w-full px-4 py-3 bg-gray-50 border border-gray-300 rounded-lg text-gray-800 placeholder-gray-400 focus:outline-none focus:border-primary-100 focus:ring-2 focus:ring-primary-100 transition-all"
+                    placeholder="Enter advertisement text"
+                  />
+                </div>
+              )}
+            </div>
+
+            {/* Popup Settings */}
+            <div className="md:col-span-2 border-t border-gray-200 pt-4">
+              <label className="flex items-center mb-3">
+                <input
+                  type="checkbox"
+                  name="isPopup"
+                  checked={formData.isPopup}
+                  onChange={handleInputChange}
+                  className="mr-2 h-4 w-4 text-black focus:ring-primary-100 border-gray-300 rounded"
+                />
+                <span className="text-gray-700 text-sm font-semibold">Display as Popup Product</span>
+              </label>
+
+              {formData.isPopup && (
+                <div>
+                  <label className="block text-gray-700 text-sm font-semibold mb-2">Popup Text (Optional)</label>
+                  <input
+                    type="text"
+                    name="popupText"
+                    value={formData.popupText}
+                    onChange={handleInputChange}
+                    className="w-full px-4 py-3 bg-gray-50 border border-gray-300 rounded-lg text-gray-800 placeholder-gray-400 focus:outline-none focus:border-primary-100 focus:ring-2 focus:ring-primary-100 transition-all"
+                    placeholder="Enter popup promotional text"
+                  />
+                </div>
+              )}
             </div>
           </div>
 

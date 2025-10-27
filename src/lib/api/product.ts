@@ -1,17 +1,31 @@
 import instance from '../axios';
 import { Product } from '../../types';
 
-interface ProductPayload {
+export interface ProductPayload {
   name: string;
+  brand: string;
   description: string;
   price: number;
+  discount?: number;
   category?: string;
   images?: string[];
   videos?: string[];
-  stock?: number;
+  inStock?: boolean;
+  secondHand?: boolean;
+
+  isBanner?: boolean;
+  isAd?: boolean;
+  isPopup?: boolean;
+  popupText?: string;
+  adText?: string;
+  bannerText?: string;
+
+  rating?: number;
+  reviews?: number;
+  ratingCount?: number;
 }
 
-interface GetProductsParams {
+export interface GetProductsParams {
   page?: number;
   limit?: number;
   search?: string;
@@ -23,6 +37,9 @@ interface GetProductsParams {
   maxPrice?: number;
   inStock?: boolean;
   isBanner?: boolean;
+  isAd?: boolean;
+  isPopup?: boolean;
+  secondHand?: boolean;
   minRating?: number;
   discounted?: boolean;
 }
@@ -33,7 +50,10 @@ export const createProduct = async (data: ProductPayload) => {
 };
 
 export const getAllProducts = async (params?: GetProductsParams) => {
-  const res = await instance.get<{ data: Product[]; total: number }>('/products', { params });
+  const res = await instance.get<{ data: Product[]; total: number; page: number; pages: number }>(
+    '/products',
+    { params }
+  );
   return res.data;
 };
 

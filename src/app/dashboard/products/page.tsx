@@ -6,35 +6,18 @@ import { createProduct, getAllProducts, updateProduct, deleteProduct } from '@/l
 import { uploadMedia } from '@/lib/api/media';
 import { Category, Product } from '@/types';
 import { notifyError, notifySuccess } from '@/lib/toast';
-import ProductSearch from './components/ProductSearch';
-import ProductPagination from './components/ProductPagination';
 import ProductGrid from './components/ProductGrid';
 import ProductModal from './components/ProductModal';
 import EmptyState from './components/EmptyState';
 import { getCategories } from '@/lib/api/category';
 import ProductFilters from './components/ProductFilters';
-
-interface CreateProductPayload {
-  name: string;
-  brand: string;
-  description: string;
-  price: number;
-  discount?: number;
-  category: string;
-  images: string[];
-  videos?: string[];
-  inStock: boolean;
-  isBanner: boolean;
-  bannerText?: string;
-  rating: number;
-  ratingCount: number;
-}
+import { ProductPayload } from '@/lib/api/product';
 
 export default function AdminProductPage() {
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [isEditing, setIsEditing] = useState(false);
   const [showCreateForm, setShowCreateForm] = useState(false);
-  const [formData, setFormData] = useState<CreateProductPayload>({
+  const [formData, setFormData] = useState<ProductPayload>({
     name: '',
     brand: '',
     description: '',
@@ -44,10 +27,16 @@ export default function AdminProductPage() {
     images: [],
     videos: [],
     inStock: true,
+    secondHand: false,
     isBanner: false,
+    isAd: false,
+    isPopup: false,
     bannerText: '',
+    adText: '',
+    popupText: '',
     rating: 0,
-    ratingCount: 0
+    ratingCount: 0,
+    reviews: 0
   });
 
   // Media upload state
@@ -58,7 +47,7 @@ export default function AdminProductPage() {
   const [uploadingMedia, setUploadingMedia] = useState(false);
   const [categories, setCategories] = useState<Category[]>([]);
 
-  // Filter and pagination state (matching client side)
+  // Filter and pagination state
   const [filters, setFilters] = useState({
     page: 1,
     search: "",
@@ -68,6 +57,12 @@ export default function AdminProductPage() {
     minPrice: undefined as number | undefined,
     maxPrice: undefined as number | undefined,
     inStock: undefined as boolean | undefined,
+    secondHand: undefined as boolean | undefined,
+    minRating: undefined as number | undefined,
+    discounted: undefined as boolean | undefined,
+    isBanner: undefined as boolean | undefined,
+    isAd: undefined as boolean | undefined,
+    isPopup: undefined as boolean | undefined,
   });
 
   const [searchInput, setSearchInput] = useState("");
@@ -106,6 +101,12 @@ export default function AdminProductPage() {
       minPrice: filters.minPrice,
       maxPrice: filters.maxPrice,
       inStock: filters.inStock,
+      secondHand: filters.secondHand,
+      minRating: filters.minRating,
+      discounted: filters.discounted,
+      isBanner: filters.isBanner,
+      isAd: filters.isAd,
+      isPopup: filters.isPopup,
     });
   };
 
@@ -130,10 +131,16 @@ export default function AdminProductPage() {
       images: [],
       videos: [],
       inStock: true,
+      secondHand: false,
       isBanner: false,
+      isAd: false,
+      isPopup: false,
       bannerText: '',
+      adText: '',
+      popupText: '',
       rating: 0,
-      ratingCount: 0
+      ratingCount: 0,
+      reviews: 0
     });
     setSelectedImages([]);
     setSelectedVideos([]);
@@ -142,8 +149,8 @@ export default function AdminProductPage() {
   };
 
   const updateFilter = (key: keyof typeof filters, value: any) => {
-    setFilters(prev => ({ 
-      ...prev, 
+    setFilters(prev => ({
+      ...prev,
       [key]: value,
       page: key !== 'page' ? 1 : value
     }));
@@ -163,6 +170,12 @@ export default function AdminProductPage() {
       minPrice: undefined,
       maxPrice: undefined,
       inStock: undefined,
+      secondHand: undefined,
+      minRating: undefined,
+      discounted: undefined,
+      isBanner: undefined,
+      isAd: undefined,
+      isPopup: undefined,
     });
     setSearchInput("");
   };
@@ -175,7 +188,7 @@ export default function AdminProductPage() {
       setFormData(prev => ({ ...prev, [name]: checked }));
     } else if (name === 'price' || name === 'rating' || name === 'discount') {
       setFormData(prev => ({ ...prev, [name]: parseFloat(value) || 0 }));
-    } else if (name === 'ratingCount') {
+    } else if (name === 'ratingCount' || name === 'reviews') {
       setFormData(prev => ({ ...prev, [name]: parseInt(value) || 0 }));
     } else {
       setFormData(prev => ({ ...prev, [name]: value }));
@@ -239,7 +252,6 @@ export default function AdminProductPage() {
   }, [allError, createError, updateError, deleteError]);
 
   const handleCreate = async () => {
-    console.log('here')
     try {
       setUploadingMedia(true);
 
@@ -322,14 +334,20 @@ export default function AdminProductPage() {
       description: product.description,
       price: product.price,
       discount: product.discount,
-      category: product.category.name,
+      category: product.category,
       images: product.images.map(img => img._id),
       videos: product.videos?.map(vid => vid._id) || [],
       inStock: product.inStock,
+      secondHand: product.secondHand,
       isBanner: product.isBanner,
+      isAd: product.isAd,
+      isPopup: product.isPopup,
       bannerText: product.bannerText || '',
+      adText: product.adText || '',
+      popupText: product.popupText || '',
       rating: product.rating,
-      ratingCount: product.ratingCount
+      ratingCount: product.ratingCount,
+      reviews: product.reviews || 0
     });
     setIsEditing(true);
     setShowCreateForm(false);
