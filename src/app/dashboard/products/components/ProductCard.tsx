@@ -43,9 +43,9 @@ export default function ProductCard({
   };
 
   return (
-    <div className="group bg-white hover:shadow-xl transition-all duration-300 overflow-hidden border border-gray-100 hover:border-gray-200">
+    <div className="group bg-white rounded-xl hover:shadow-xl transition-all duration-300 overflow-hidden border border-gray-100 hover:border-gray-200 relative">
       {/* Product Image Carousel */}
-      <div className="aspect-[4/3] relative overflow-hidden bg-gradient-to-br from-gray-50 to-gray-100">
+      <div className="aspect-[4/4] relative overflow-hidden bg-gradient-to-br from-gray-50 to-gray-100">
         {hasImages ? (
           <>
             {/* Main Image */}
@@ -167,7 +167,7 @@ export default function ProductCard({
       </div>
 
       {/* Product Details */}
-      <div className="px-5 py-3">
+      <div className="px-3 py-2 bg-black/23 absolute top-0 w-full h-full flex flex-col justify-end z-10">
         {/* Category */}
         <div className="mb-2">
           <span className="inline-block bg-blue-50 text-blue-700 px-2.5 py-1 rounded-full text-xs font-semibold border border-blue-200">
@@ -176,44 +176,44 @@ export default function ProductCard({
         </div>
 
         {/* Name and Brand */}
-        <div className="mb-3">
-          <h3 className="text-lg font-bold text-gray-900 mb-1.5 line-clamp-2 leading-tight group-hover:text-gray-700 transition-colors">
+        <div className="mb-1">
+          <h3 className="font-bold text-gray-100 line-clamp-2 leading-tight group-hover:text-gray-700 transition-colors">
             {product.name}
           </h3>
-          <p className="text-gray-600 text-sm font-medium flex items-center">
+          {/* <p className="text-gray-600 text-sm font-medium flex items-center">
             <svg className="w-4 h-4 mr-1.5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
             </svg>
             {product.brand}
-          </p>
+          </p> */}
         </div>
 
         {/* Description */}
-        <div className="mb-4">
+        {/* <div className="mb-4">
           <p className="text-gray-600 text-sm leading-relaxed line-clamp-2">{product.description}</p>
-        </div>
+        </div> */}
 
         {/* Price and Rating */}
-        <div className="mb-4">
+        <div className="mb-2">
           <div className="flex items-center justify-between">
             <div className="flex items-baseline gap-2">
-              <p className="text-2xl font-bold text-gray-900">${product.price.toLocaleString()}</p>
+              <p className="text-xl font-bold text-green-600">${product.price.toLocaleString()}</p>
               {product.discount && product.discount > 0 && (
                 <div className="flex flex-col">
-                  <span className="text-xs text-green-600 font-semibold bg-green-50 px-2 py-1 rounded-full">
+                  {/* <span className="text-xs text-green-600 font-semibold bg-green-50 px-2 py-1 rounded-full">
                     {product.discount}% OFF
-                  </span>
-                  <p className="text-sm text-gray-500 line-through">
-                    ${(product.price / (1 - product.discount / 100)).toLocaleString(undefined, { maximumFractionDigits: 2 })}
+                  </span> */}
+                  <p className="text-sm text-gray-300 line-through">
+                     ¥{(product.price / (1 - product.discount / 100)).toLocaleString(undefined, { maximumFractionDigits: 2 })}
                   </p>
                 </div>
               )}
             </div>
-            <div className="flex items-center gap-1.5 bg-yellow-50 px-2.5 py-1 rounded-full border border-yellow-200">
+            {/* <div className="flex items-center gap-1.5 bg-yellow-50 px-2.5 py-1 rounded-full border border-yellow-200">
               <span className="text-yellow-500 text-sm">★</span>
               <span className="text-gray-800 text-sm font-semibold">{product.rating.toFixed(1)}</span>
               <span className="text-gray-500 text-xs">({product.ratingCount})</span>
-            </div>
+            </div> */}
           </div>
         </div>
 
@@ -222,7 +222,7 @@ export default function ProductCard({
           <button
             onClick={() => handleEdit(product)}
             disabled={isEditing}
-            className="flex-1 bg-gray-900 hover:bg-gray-800 disabled:bg-gray-400 text-white px-4 py-3 rounded-xl font-semibold shadow-lg transition-all duration-200 transform hover:scale-[1.02] disabled:scale-100 disabled:cursor-not-allowed text-sm flex items-center justify-center gap-2 group/btn"
+            className="flex-1 bg-gray-900 hover:bg-gray-800 disabled:bg-gray-400 text-white px-4 py-2 rounded-xl font-semibold shadow-lg transition-all duration-200 transform hover:scale-[1.02] disabled:scale-100 disabled:cursor-not-allowed text-sm flex items-center justify-center gap-2 group/btn"
           >
             <svg className="w-4 h-4 group-hover/btn:scale-110 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
@@ -232,7 +232,7 @@ export default function ProductCard({
           <button
             onClick={() => handleDelete(product._id)}
             disabled={deleteLoading || isEditing}
-            className="flex-1 bg-gradient-to-r from-red-500 to-rose-500 hover:from-red-600 hover:to-rose-600 disabled:from-gray-400 disabled:to-gray-300 text-white px-4 py-3 rounded-xl font-semibold shadow-lg transition-all duration-200 transform hover:scale-[1.02] disabled:scale-100 disabled:cursor-not-allowed text-sm flex items-center justify-center gap-2 group/btn"
+            className="flex-1 bg-red-500 hover:from-red-600 hover:to-rose-600 disabled:from-gray-400 disabled:to-gray-300 text-white px-4 py-2 rounded-xl font-semibold shadow-lg transition-all duration-200 transform hover:scale-[1.02] disabled:scale-100 disabled:cursor-not-allowed text-sm flex items-center justify-center gap-2 group/btn"
           >
             {deleteLoading ? (
               <>

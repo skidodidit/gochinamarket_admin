@@ -27,7 +27,7 @@ export default function ProductPagination({
           <select
             value={itemsPerPage}
             onChange={handleItemsPerPageChange}
-            className="px-3 py-1.5 bg-white border border-gray-300 rounded-lg text-sm focus:outline-none focus:border-primary-100"
+            className="px-3 py-1.5 bg-white border border-gray-300 rounded-lg text-sm focus:outline-none focus:border-primary"
           >
             {itemsPerPageOptions.map(option => (
               <option key={option} value={option}>{option}</option>
@@ -62,7 +62,7 @@ export default function ProductPagination({
                   <button
                     key={pageNum}
                     onClick={() => handlePageChange(pageNum)}
-                    className={`w-8 h-8 rounded-lg text-sm transition-colors ${currentPage === pageNum ? 'bg-primary-100 text-black' : 'bg-white border border-gray-300 hover:bg-gray-50'}`}
+                    className={`w-8 h-8 rounded-lg text-sm transition-colors ${currentPage === pageNum ? 'bg-primary text-black' : 'bg-white border border-gray-300 hover:bg-gray-50'}`}
                   >
                     {pageNum}
                   </button>
@@ -74,7 +74,7 @@ export default function ProductPagination({
                   <span className="mx-1">...</span>
                   <button
                     onClick={() => handlePageChange(totalPages)}
-                    className={`w-8 h-8 rounded-lg text-sm ${currentPage === totalPages ? 'bg-primary-100 text-black' : 'bg-white border border-gray-300 hover:bg-gray-50'}`}
+                    className={`w-8 h-8 rounded-lg text-sm ${currentPage === totalPages ? 'bg-primary text-black' : 'bg-white border border-gray-300 hover:bg-gray-50'}`}
                   >
                     {totalPages}
                   </button>
@@ -124,7 +124,7 @@ export default function ProductPagination({
               <button
                 key={pageNum}
                 onClick={() => handlePageChange(pageNum)}
-                className={`w-10 h-10 rounded-lg text-sm transition-colors ${currentPage === pageNum ? 'bg-primary-100 text-black' : 'bg-white border border-gray-300 hover:bg-gray-50'}`}
+                className={`w-10 h-10 rounded-lg text-sm transition-colors ${currentPage === pageNum ? 'bg-primary text-black' : 'bg-white border border-gray-300 hover:bg-gray-50'}`}
               >
                 {pageNum}
               </button>
@@ -136,7 +136,7 @@ export default function ProductPagination({
               <span className="mx-1">...</span>
               <button
                 onClick={() => handlePageChange(totalPages)}
-                className={`w-10 h-10 rounded-lg text-sm ${currentPage === totalPages ? 'bg-primary-100 text-black' : 'bg-white border border-gray-300 hover:bg-gray-50'}`}
+                className={`w-10 h-10 rounded-lg text-sm ${currentPage === totalPages ? 'bg-primary text-black' : 'bg-white border border-gray-300 hover:bg-gray-50'}`}
               >
                 {totalPages}
               </button>

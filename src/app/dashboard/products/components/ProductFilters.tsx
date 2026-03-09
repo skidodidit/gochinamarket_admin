@@ -87,11 +87,11 @@ export default function ProductFilters({
               value={searchInput}
               onChange={(e) => onSearchInputChange(e.target.value)}
               onKeyPress={(e) => e.key === "Enter" && onSearch()}
-              className="w-full pl-2 pr-4 py-2.5 bg-gray-50 border-0 rounded-lg outline-none focus:ring-1 focus:ring-primary-100 focus:bg-white transition-all"
+              className="w-full pl-2 pr-4 py-2.5 bg-gray-50 border-0 rounded-lg outline-none focus:ring-1 focus:ring-primary focus:bg-white transition-all"
             />
             <button 
               onClick={onSearch} 
-              className="absolute right-1 top-1/2 transform -translate-y-1/2 text-black bg-primary-100 rounded-lg p-2"
+              className="absolute right-1 top-1/2 transform -translate-y-1/2 text-black bg-primary rounded-lg p-2"
             >
               <Search size={16} />
             </button>
@@ -104,7 +104,7 @@ export default function ProductFilters({
           <select
             value={`${filters.sortBy}-${filters.sortOrder}`}
             onChange={(e) => handleSortChange(e.target.value)}
-            className="flex-1 px-3 py-2.5 bg-gray-50 border-0 rounded-lg outline-none focus:ring-1 focus:ring-primary-100 focus:bg-white transition-all text-sm"
+            className="flex-1 px-3 py-2.5 bg-gray-50 border-0 rounded-lg outline-none focus:ring-1 focus:ring-primary focus:bg-white transition-all text-sm"
           >
             <option value="createdAt-desc">Newest</option>
             <option value="price-asc">Price: Low to High</option>
@@ -120,7 +120,7 @@ export default function ProductFilters({
             <Filter className="w-4 h-4" />
             <span className="text-sm">Filters</span>
             {activeFilterCount > 0 && (
-              <span className="bg-primary-100 text-black text-xs rounded-full w-5 h-5 flex items-center justify-center">
+              <span className="bg-primary text-black text-xs rounded-full w-5 h-5 flex items-center justify-center">
                 {activeFilterCount}
               </span>
             )}
@@ -151,7 +151,7 @@ export default function ProductFilters({
               <select
                 value={filters.selectedCategory}
                 onChange={(e) => onFilterChange("selectedCategory", e.target.value)}
-                className="w-full px-3 py-2 bg-gray-50 border-0 rounded-lg outline-none focus:ring-1 focus:ring-primary-100 focus:bg-white transition-all text-sm"
+                className="w-full px-3 py-2 bg-gray-50 border-0 rounded-lg outline-none focus:ring-1 focus:ring-primary focus:bg-white transition-all text-sm"
                 disabled={categoriesLoading}
               >
                 <option value="">All Categories</option>
@@ -173,7 +173,7 @@ export default function ProductFilters({
                 onChange={(e) =>
                   onFilterChange("inStock", e.target.value === "" ? undefined : e.target.value === "true")
                 }
-                className="w-full px-3 py-2 bg-gray-50 border-0 rounded-lg outline-none focus:ring-1 focus:ring-primary-100 focus:bg-white transition-all text-sm"
+                className="w-full px-3 py-2 bg-gray-50 border-0 rounded-lg outline-none focus:ring-1 focus:ring-primary focus:bg-white transition-all text-sm"
               >
                 <option value="">All Stock</option>
                 <option value="true">In Stock</option>
@@ -191,7 +191,7 @@ export default function ProductFilters({
                 onChange={(e) =>
                   onFilterChange("secondHand", e.target.value === "" ? undefined : e.target.value === "true")
                 }
-                className="w-full px-3 py-2 bg-gray-50 border-0 rounded-lg outline-none focus:ring-1 focus:ring-primary-100 focus:bg-white transition-all text-sm"
+                className="w-full px-3 py-2 bg-gray-50 border-0 rounded-lg outline-none focus:ring-1 focus:ring-primary focus:bg-white transition-all text-sm"
               >
                 <option value="">All Conditions</option>
                 <option value="false">New</option>
@@ -209,7 +209,7 @@ export default function ProductFilters({
                 onChange={(e) =>
                   onFilterChange("minRating", e.target.value ? Number(e.target.value) : undefined)
                 }
-                className="w-full px-3 py-2 bg-gray-50 border-0 rounded-lg outline-none focus:ring-1 focus:ring-primary-100 focus:bg-white transition-all text-sm"
+                className="w-full px-3 py-2 bg-gray-50 border-0 rounded-lg outline-none focus:ring-1 focus:ring-primary focus:bg-white transition-all text-sm"
               >
                 <option value="">Any Rating</option>
                 <option value="4">4+ Stars</option>
@@ -232,7 +232,7 @@ export default function ProductFilters({
                     onFilterChange("minPrice", e.target.value ? Number(e.target.value) : undefined)
                   }
                   onBlur={handlePriceFilter}
-                  className="flex-1 px-3 py-2 bg-gray-50 border-0 rounded-lg outline-none focus:ring-1 focus:ring-primary-100 focus:bg-white transition-all text-sm"
+                  className="flex-1 px-3 py-2 bg-gray-50 border-0 rounded-lg outline-none focus:ring-1 focus:ring-primary focus:bg-white transition-all text-sm"
                 />
                 <span className="text-gray-400 text-sm">to</span>
                 <input
@@ -243,7 +243,7 @@ export default function ProductFilters({
                     onFilterChange("maxPrice", e.target.value ? Number(e.target.value) : undefined)
                   }
                   onBlur={handlePriceFilter}
-                  className="flex-1 px-3 py-2 bg-gray-50 border-0 rounded-lg outline-none focus:ring-1 focus:ring-primary-100 focus:bg-white transition-all text-sm"
+                  className="flex-1 px-3 py-2 bg-gray-50 border-0 rounded-lg outline-none focus:ring-1 focus:ring-primary focus:bg-white transition-all text-sm"
                 />
               </div>
             </div>
@@ -259,7 +259,7 @@ export default function ProductFilters({
                     type="checkbox"
                     checked={filters.discounted || false}
                     onChange={(e) => onFilterChange("discounted", e.target.checked || undefined)}
-                    className="mr-2 h-4 w-4 text-black focus:ring-primary-100 border-gray-300 rounded"
+                    className="mr-2 h-4 w-4 text-black focus:ring-primary border-gray-300 rounded"
                   />
                   <span className="text-sm text-gray-700">Discounted</span>
                 </label>
@@ -269,7 +269,7 @@ export default function ProductFilters({
                     type="checkbox"
                     checked={filters.isBanner || false}
                     onChange={(e) => onFilterChange("isBanner", e.target.checked || undefined)}
-                    className="mr-2 h-4 w-4 text-black focus:ring-primary-100 border-gray-300 rounded"
+                    className="mr-2 h-4 w-4 text-black focus:ring-primary border-gray-300 rounded"
                   />
                   <span className="text-sm text-gray-700">Banner</span>
                 </label>
@@ -279,7 +279,7 @@ export default function ProductFilters({
                     type="checkbox"
                     checked={filters.isAd || false}
                     onChange={(e) => onFilterChange("isAd", e.target.checked || undefined)}
-                    className="mr-2 h-4 w-4 text-black focus:ring-primary-100 border-gray-300 rounded"
+                    className="mr-2 h-4 w-4 text-black focus:ring-primary border-gray-300 rounded"
                   />
                   <span className="text-sm text-gray-700">Advertisement</span>
                 </label>
@@ -289,7 +289,7 @@ export default function ProductFilters({
                     type="checkbox"
                     checked={filters.isPopup || false}
                     onChange={(e) => onFilterChange("isPopup", e.target.checked || undefined)}
-                    className="mr-2 h-4 w-4 text-black focus:ring-primary-100 border-gray-300 rounded"
+                    className="mr-2 h-4 w-4 text-black focus:ring-primary border-gray-300 rounded"
                   />
                   <span className="text-sm text-gray-700">Popup</span>
                 </label>
@@ -305,7 +305,7 @@ export default function ProductFilters({
               </span>
               <button
                 onClick={onClearFilters}
-                className="flex items-center gap-1 px-3 py-2 text-primary-100 hover:text-primary-200 transition-colors text-sm font-medium"
+                className="flex items-center gap-1 px-3 py-2 text-primary hover:text-primary-200 transition-colors text-sm font-medium"
               >
                 <X className="w-4 h-4" />
                 Clear All

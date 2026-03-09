@@ -140,7 +140,7 @@ const AboutPage = () => {
               <>
                 <button
                   onClick={() => setIsEditing(true)}
-                  className="px-6 py-2 bg-primary-100 text-black rounded-lg hover:bg-primary-100/60 font-medium flex items-center gap-2"
+                  className="px-6 py-2 bg-primary text-black rounded-lg hover:bg-primary/60 font-medium flex items-center gap-2"
                 >
                   <Save className="w-4 h-4" />
                   Edit

@@ -162,7 +162,7 @@ const ContactPage = () => {
         <div className="mb-5 flex items-center justify-between">
           <button
             onClick={handleCreate}
-            className="px-6 py-2 bg-primary-100 text-black rounded-lg hover:bg-blue-700 font-medium flex items-center gap-2"
+            className="px-6 py-2 bg-primary text-black rounded-lg hover:bg-blue-700 font-medium flex items-center gap-2"
           >
             <Plus className="w-4 h-4" />
             Add Contact

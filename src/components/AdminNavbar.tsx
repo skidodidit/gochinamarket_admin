@@ -74,7 +74,7 @@ export default function AdminNavbar() {
   return (
     <>
       {/* Mobile Header */}
-      <div className="lg:hidden bg-primary-100 text-black p-1 flex justify-between items-center rounded-lg fixed z-40 right-2 top-8">
+      <div className="lg:hidden bg-primary text-black p-1 flex justify-between items-center rounded-lg fixed z-40 right-2 top-8">
         <button 
           onClick={toggleSidebar}
           className="p-2 rounded-md hover:bg-opacity-60 transition-colors"
@@ -93,7 +93,7 @@ export default function AdminNavbar() {
 
       {/* Sidebar */}
       <nav
-        className={`fixed left-0 top-0 h-full w-64 bg-gradient-to-br from-primary-100 via-primary-100 to-primary-100 text-white shadow-2xl transform transition-transform duration-300 z-50 lg:translate-x-0 ${
+        className={`fixed left-0 top-0 h-full w-64 bg-gradient-to-br from-primary via-primary to-primary text-white shadow-2xl transform transition-transform duration-300 z-50 lg:translate-x-0 ${
           isSidebarOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"
         }`}
       >
@@ -101,7 +101,7 @@ export default function AdminNavbar() {
         <div className="p-6 border-b border-white/60 bg-white/20">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <div className="w-8 h-8 bg-primary-100 rounded-lg flex items-center justify-center">
+              <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
                 <LayoutDashboard size={18} className="text-black" />
               </div>
               <div>
@@ -111,7 +111,7 @@ export default function AdminNavbar() {
             </div>
             <button
               onClick={toggleSidebar}
-              className="lg:hidden p-2 rounded-lg hover:bg-primary-100/50 transition-colors"
+              className="lg:hidden p-2 rounded-lg hover:bg-primary/50 transition-colors"
             >
               <X size={18} />
             </button>

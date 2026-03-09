@@ -391,7 +391,7 @@ export default function AdminProductPage() {
         <div className="mb-6 flex flex-col sm:flex-row gap-4">
           <button
             onClick={() => setShowCreateForm(true)}
-            className="bg-primary-100 text-black px-6 py-3 rounded-lg transition-all duration-200 transform hover:scale-105 w-full sm:w-auto"
+            className="bg-primary text-black px-6 py-3 rounded-lg transition-all duration-200 transform hover:scale-105 w-full sm:w-auto"
           >
             + Add New Product
           </button>
@@ -475,7 +475,7 @@ export default function AdminProductPage() {
                     <button
                       key={pageNum}
                       onClick={() => handlePageChange(pageNum)}
-                      className={`w-10 h-10 rounded-lg text-sm transition-colors ${filters.page === pageNum ? 'bg-primary-100 text-black' : 'bg-white border border-gray-300 hover:bg-gray-50'}`}
+                      className={`w-10 h-10 rounded-lg text-sm transition-colors ${filters.page === pageNum ? 'bg-primary text-black' : 'bg-white border border-gray-300 hover:bg-gray-50'}`}
                     >
                       {pageNum}
                     </button>
@@ -487,7 +487,7 @@ export default function AdminProductPage() {
                     <span className="mx-1">...</span>
                     <button
                       onClick={() => handlePageChange(totalPages)}
-                      className={`w-10 h-10 rounded-lg text-sm ${filters.page === totalPages ? 'bg-primary-100 text-black' : 'bg-white border border-gray-300 hover:bg-gray-50'}`}
+                      className={`w-10 h-10 rounded-lg text-sm ${filters.page === totalPages ? 'bg-primary text-black' : 'bg-white border border-gray-300 hover:bg-gray-50'}`}
                     >
                       {totalPages}
                     </button>

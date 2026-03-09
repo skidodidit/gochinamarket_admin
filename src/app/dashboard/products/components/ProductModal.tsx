@@ -72,7 +72,7 @@ export default function ProductModal({
                 value={formData.name}
                 onChange={handleInputChange}
                 required
-                className="w-full px-4 py-3 bg-gray-50 border border-gray-300 rounded-lg text-gray-800 placeholder-gray-400 focus:outline-none focus:border-primary-100 focus:ring-2 focus:ring-primary-100 transition-all"
+                className="w-full px-4 py-3 bg-gray-50 border border-gray-300 rounded-lg text-gray-800 placeholder-gray-400 focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary transition-all"
                 placeholder="Enter product name"
               />
             </div>
@@ -85,7 +85,7 @@ export default function ProductModal({
                 value={formData.brand}
                 onChange={handleInputChange}
                 required
-                className="w-full px-4 py-3 bg-gray-50 border border-gray-300 rounded-lg text-gray-800 placeholder-gray-400 focus:outline-none focus:border-primary-100 focus:ring-2 focus:ring-primary-100 transition-all"
+                className="w-full px-4 py-3 bg-gray-50 border border-gray-300 rounded-lg text-gray-800 placeholder-gray-400 focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary transition-all"
                 placeholder="Enter brand name"
               />
             </div>
@@ -97,7 +97,7 @@ export default function ProductModal({
                 value={formData.category}
                 onChange={handleInputChange}
                 required
-                className="w-full px-4 py-3 bg-gray-50 border border-gray-300 rounded-lg text-gray-800 focus:outline-none focus:border-primary-100 focus:ring-2 focus:ring-primary-100 transition-all"
+                className="w-full px-4 py-3 bg-gray-50 border border-gray-300 rounded-lg text-gray-800 focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary transition-all"
               >
                 <option value="">Select category</option>
                 {categories?.map((cat) => (
@@ -109,7 +109,7 @@ export default function ProductModal({
             </div>
 
             <div>
-              <label className="block text-gray-700 text-sm font-semibold mb-2">Price (₦) *</label>
+              <label className="block text-gray-700 text-sm font-semibold mb-2">Price (¥) *</label>
               <input
                 type="number"
                 name="price"
@@ -118,7 +118,7 @@ export default function ProductModal({
                 min="0"
                 step="0.01"
                 required
-                className="w-full px-4 py-3 bg-gray-50 border border-gray-300 rounded-lg text-gray-800 placeholder-gray-400 focus:outline-none focus:border-primary-100 focus:ring-2 focus:ring-primary-100 transition-all"
+                className="w-full px-4 py-3 bg-gray-50 border border-gray-300 rounded-lg text-gray-800 placeholder-gray-400 focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary transition-all"
                 placeholder="Enter price"
               />
             </div>
@@ -133,7 +133,7 @@ export default function ProductModal({
                 min="0"
                 max="100"
                 step="1"
-                className="w-full px-4 py-3 bg-gray-50 border border-gray-300 rounded-lg text-gray-800 placeholder-gray-400 focus:outline-none focus:border-primary-100 focus:ring-2 focus:ring-primary-100 transition-all"
+                className="w-full px-4 py-3 bg-gray-50 border border-gray-300 rounded-lg text-gray-800 placeholder-gray-400 focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary transition-all"
                 placeholder="Enter discount percentage"
               />
             </div>
@@ -149,7 +149,7 @@ export default function ProductModal({
                 max="5"
                 step="0.1"
                 required
-                className="w-full px-4 py-3 bg-gray-50 border border-gray-300 rounded-lg text-gray-800 placeholder-gray-400 focus:outline-none focus:border-primary-100 focus:ring-2 focus:ring-primary-100 transition-all"
+                className="w-full px-4 py-3 bg-gray-50 border border-gray-300 rounded-lg text-gray-800 placeholder-gray-400 focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary transition-all"
                 placeholder="Enter rating (0-5)"
               />
             </div>
@@ -163,7 +163,7 @@ export default function ProductModal({
                 onChange={handleInputChange}
                 min="0"
                 required
-                className="w-full px-4 py-3 bg-gray-50 border border-gray-300 rounded-lg text-gray-800 placeholder-gray-400 focus:outline-none focus:border-primary-100 focus:ring-2 focus:ring-primary-100 transition-all"
+                className="w-full px-4 py-3 bg-gray-50 border border-gray-300 rounded-lg text-gray-800 placeholder-gray-400 focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary transition-all"
                 placeholder="Enter rating count"
               />
             </div>
@@ -176,7 +176,7 @@ export default function ProductModal({
                 value={formData.reviews || 0}
                 onChange={handleInputChange}
                 min="0"
-                className="w-full px-4 py-3 bg-gray-50 border border-gray-300 rounded-lg text-gray-800 placeholder-gray-400 focus:outline-none focus:border-primary-100 focus:ring-2 focus:ring-primary-100 transition-all"
+                className="w-full px-4 py-3 bg-gray-50 border border-gray-300 rounded-lg text-gray-800 placeholder-gray-400 focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary transition-all"
                 placeholder="Enter reviews count"
               />
             </div>
@@ -189,7 +189,7 @@ export default function ProductModal({
                 onChange={handleInputChange}
                 rows={4}
                 required
-                className="w-full px-4 py-3 bg-gray-50 border border-gray-300 rounded-lg text-gray-800 placeholder-gray-400 focus:outline-none focus:border-primary-100 focus:ring-2 focus:ring-primary-100 transition-all resize-none"
+                className="w-full px-4 py-3 bg-gray-50 border border-gray-300 rounded-lg text-gray-800 placeholder-gray-400 focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary transition-all resize-none"
                 placeholder="Enter product description"
               />
             </div>
@@ -203,7 +203,7 @@ export default function ProductModal({
                 accept="image/*"
                 multiple
                 required={!isEditing}
-                className="w-full px-4 py-3 bg-gray-50 border border-gray-300 rounded-lg text-gray-800 focus:outline-none focus:border-primary-100 focus:ring-2 focus:ring-primary-100 transition-all file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:bg-primary-100/40 file:text-black hover:file:bg-primary-100"
+                className="w-full px-4 py-3 bg-gray-50 border border-gray-300 rounded-lg text-gray-800 focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary transition-all file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:bg-primary/40 file:text-black hover:file:bg-primary"
               />
 
               {isEditing && selectedProduct && selectedProduct.images.length > 0 && (
@@ -241,7 +241,7 @@ export default function ProductModal({
                         <img
                           src={preview}
                           alt={`Preview ${index + 1}`}
-                          className="w-full h-24 object-cover rounded-lg border-2 border-primary-100"
+                          className="w-full h-24 object-cover rounded-lg border-2 border-primary"
                         />
                         <button
                           type="button"
@@ -267,7 +267,7 @@ export default function ProductModal({
                 onChange={handleVideoChange}
                 accept="video/*"
                 multiple
-                className="w-full px-4 py-3 bg-gray-50 border border-gray-300 rounded-lg text-gray-800 focus:outline-none focus:border-primary-100 focus:ring-2 focus:ring-primary-100 transition-all file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:bg-purple-50 file:text-purple-700 hover:file:bg-purple-100"
+                className="w-full px-4 py-3 bg-gray-50 border border-gray-300 rounded-lg text-gray-800 focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary transition-all file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:bg-purple-50 file:text-purple-700 hover:file:bg-purple-100"
               />
 
               {isEditing && selectedProduct && selectedProduct.videos && selectedProduct.videos.length > 0 && (
@@ -332,7 +332,7 @@ export default function ProductModal({
                     name="inStock"
                     checked={formData.inStock}
                     onChange={handleInputChange}
-                    className="mr-2 h-4 w-4 text-black focus:ring-primary-100 border-gray-300 rounded"
+                    className="mr-2 h-4 w-4 text-black focus:ring-primary border-gray-300 rounded"
                   />
                   <span className="text-gray-700 text-sm font-semibold">In Stock</span>
                 </label>
@@ -343,7 +343,7 @@ export default function ProductModal({
                     name="secondHand"
                     checked={formData.secondHand}
                     onChange={handleInputChange}
-                    className="mr-2 h-4 w-4 text-black focus:ring-primary-100 border-gray-300 rounded"
+                    className="mr-2 h-4 w-4 text-black focus:ring-primary border-gray-300 rounded"
                   />
                   <span className="text-gray-700 text-sm font-semibold">Second Hand</span>
                 </label>
@@ -358,7 +358,7 @@ export default function ProductModal({
                   name="isBanner"
                   checked={formData.isBanner}
                   onChange={handleInputChange}
-                  className="mr-2 h-4 w-4 text-black focus:ring-primary-100 border-gray-300 rounded"
+                  className="mr-2 h-4 w-4 text-black focus:ring-primary border-gray-300 rounded"
                 />
                 <span className="text-gray-700 text-sm font-semibold">Display as Banner Product</span>
               </label>
@@ -371,7 +371,7 @@ export default function ProductModal({
                     name="bannerText"
                     value={formData.bannerText}
                     onChange={handleInputChange}
-                    className="w-full px-4 py-3 bg-gray-50 border border-gray-300 rounded-lg text-gray-800 placeholder-gray-400 focus:outline-none focus:border-primary-100 focus:ring-2 focus:ring-primary-100 transition-all"
+                    className="w-full px-4 py-3 bg-gray-50 border border-gray-300 rounded-lg text-gray-800 placeholder-gray-400 focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary transition-all"
                     placeholder="Enter banner promotional text"
                   />
                 </div>
@@ -386,7 +386,7 @@ export default function ProductModal({
                   name="isAd"
                   checked={formData.isAd}
                   onChange={handleInputChange}
-                  className="mr-2 h-4 w-4 text-black focus:ring-primary-100 border-gray-300 rounded"
+                  className="mr-2 h-4 w-4 text-black focus:ring-primary border-gray-300 rounded"
                 />
                 <span className="text-gray-700 text-sm font-semibold">Display as Advertisement</span>
               </label>
@@ -399,7 +399,7 @@ export default function ProductModal({
                     name="adText"
                     value={formData.adText}
                     onChange={handleInputChange}
-                    className="w-full px-4 py-3 bg-gray-50 border border-gray-300 rounded-lg text-gray-800 placeholder-gray-400 focus:outline-none focus:border-primary-100 focus:ring-2 focus:ring-primary-100 transition-all"
+                    className="w-full px-4 py-3 bg-gray-50 border border-gray-300 rounded-lg text-gray-800 placeholder-gray-400 focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary transition-all"
                     placeholder="Enter advertisement text"
                   />
                 </div>
@@ -414,7 +414,7 @@ export default function ProductModal({
                   name="isPopup"
                   checked={formData.isPopup}
                   onChange={handleInputChange}
-                  className="mr-2 h-4 w-4 text-black focus:ring-primary-100 border-gray-300 rounded"
+                  className="mr-2 h-4 w-4 text-black focus:ring-primary border-gray-300 rounded"
                 />
                 <span className="text-gray-700 text-sm font-semibold">Display as Popup Product</span>
               </label>
@@ -427,7 +427,7 @@ export default function ProductModal({
                     name="popupText"
                     value={formData.popupText}
                     onChange={handleInputChange}
-                    className="w-full px-4 py-3 bg-gray-50 border border-gray-300 rounded-lg text-gray-800 placeholder-gray-400 focus:outline-none focus:border-primary-100 focus:ring-2 focus:ring-primary-100 transition-all"
+                    className="w-full px-4 py-3 bg-gray-50 border border-gray-300 rounded-lg text-gray-800 placeholder-gray-400 focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary transition-all"
                     placeholder="Enter popup promotional text"
                   />
                 </div>
@@ -448,7 +448,7 @@ export default function ProductModal({
               type="button"
               onClick={isEditing ? handleUpdate : handleCreate}
               disabled={createLoading || updateLoading || uploadingMedia}
-              className="flex-1 bg-primary-100 hover:bg-primary-100/60 disabled:from-gray-400 disabled:to-gray-300 text-black px-6 py-3 rounded-lg shadow-lg transition-all duration-200 transform hover:scale-105 disabled:scale-100 disabled:cursor-not-allowed order-1 sm:order-2"
+              className="flex-1 bg-primary hover:bg-primary/60 disabled:from-gray-400 disabled:to-gray-300 text-black px-6 py-3 rounded-lg shadow-lg transition-all duration-200 transform hover:scale-105 disabled:scale-100 disabled:cursor-not-allowed order-1 sm:order-2"
             >
               {(createLoading || updateLoading || uploadingMedia) ? (
                 <div className="flex items-center justify-center gap-2">

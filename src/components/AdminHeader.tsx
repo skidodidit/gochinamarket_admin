@@ -103,7 +103,7 @@ export default function AdminHeader({ userName = 'Admin', userRole = 'Administra
             
             {/* Page Title */}
             <div className="flex items-center gap-3">
-              <div className="p-2 bg-primary-100 rounded-lg">
+              <div className="p-2 bg-primary rounded-lg">
                 {/* <Icon size={24} className="text-black" /> */}
               </div>
               <div>

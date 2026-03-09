@@ -85,12 +85,12 @@ export default function AdminUsersPage() {
                 value={searchInput}
                 onChange={(e) => setSearchInput(e.target.value)}
                 onKeyPress={(e) => e.key === 'Enter' && handleSearch()}
-                className="w-full pl-10 pr-4 py-3 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-100 focus:border-transparent"
+                className="w-full pl-10 pr-4 py-3 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
               />
             </div>
             <button
               onClick={handleSearch}
-              className="px-5 py-2 bg-primary-100 text-black rounded-lg hover:bg-blue-700 transition-colors font-medium"
+              className="px-5 py-2 bg-primary text-black rounded-lg hover:bg-blue-700 transition-colors font-medium"
             >
               Search
             </button>

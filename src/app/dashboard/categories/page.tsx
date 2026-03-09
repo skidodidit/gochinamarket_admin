@@ -94,7 +94,7 @@ export default function AdminCategories() {
               </div>
               <button
                 onClick={() => setIsModalOpen(true)}
-                className="flex items-center gap-2 bg-primary-100 hover:bg-primary-100 text-black px-6 py-2 rounded-lg transition-colors shadow-md hover:shadow-lg"
+                className="flex items-center gap-2 bg-primary hover:bg-primary text-black px-6 py-2 rounded-lg transition-colors shadow-md hover:shadow-lg"
               >
                 <Plus className="w-5 h-5" />
                 Add Category
@@ -228,7 +228,7 @@ export default function AdminCategories() {
                   type="button"
                   onClick={handleSubmit}
                   disabled={createLoading || updateLoading}
-                  className="flex-1 px-4 py-2 bg-primary-100 text-black rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="flex-1 px-4 py-2 bg-primary text-black rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   {createLoading || updateLoading ? 'Saving...' : editingCategory ? 'Update' : 'Create'}
                 </button>
