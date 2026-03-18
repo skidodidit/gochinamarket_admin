@@ -9,6 +9,37 @@ export interface Media {
 }
 
 // ------------------ PRODUCT ------------------
+export interface OptionValue {
+  valueId: string;
+  valueName: string;
+  imageUrl?: string;
+}
+
+export interface ProductOption {
+  optionId: string;
+  optionName: string;
+  values: OptionValue[];
+}
+
+export interface VariantOptionValue {
+  optionId: string;
+  optionName: string;
+  valueId: string;
+  valueName: string;
+}
+
+export interface ProductVariant {
+  skuCode: string;
+  price: number;
+  originalPrice?: number;
+  stock: number;
+  imageUrl?: string;
+  inStock: boolean;
+  optionValues: VariantOptionValue[];
+}
+
+// ─── Product ──────────────────────────────────────────────────────────────────
+
 export interface Product {
   _id: string;
   name: string;
@@ -34,6 +65,9 @@ export interface Product {
   rating: number;
   reviews: number;
   ratingCount: number;
+
+  options: ProductOption[];
+  variants: ProductVariant[];
 
   createdAt?: string;
   updatedAt?: string;
@@ -151,6 +185,8 @@ export interface OrderItem {
   product: Product;
   quantity: number;
   price: number;
+  skuCode?: string;
+  selectedOptions?: VariantOptionValue[];
 }
 
 export interface OrderAddress {

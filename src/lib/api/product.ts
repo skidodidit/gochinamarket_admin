@@ -1,5 +1,5 @@
-import instance from '../axios';
-import { Product } from '../../types';
+import { Product, ProductOption, ProductVariant } from '@/types';
+import instance from '../axios'; // adjust to your axios instance import
 
 export interface ProductPayload {
   name: string;
@@ -23,6 +23,9 @@ export interface ProductPayload {
   rating?: number;
   reviews?: number;
   ratingCount?: number;
+
+  options?: ProductOption[];
+  variants?: ProductVariant[];
 }
 
 export interface GetProductsParams {
@@ -42,6 +45,7 @@ export interface GetProductsParams {
   secondHand?: boolean;
   minRating?: number;
   discounted?: boolean;
+  hasVariants?: boolean;
 }
 
 export const createProduct = async (data: ProductPayload) => {

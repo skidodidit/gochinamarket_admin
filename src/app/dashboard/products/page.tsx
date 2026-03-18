@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import { useApi } from '@/hooks/useApi';
 import { createProduct, getAllProducts, updateProduct, deleteProduct } from '@/lib/api/product';
 import { uploadMedia } from '@/lib/api/media';
-import { Category, Product } from '@/types';
+import { Category, Product, ProductOption, ProductVariant } from '@/types';
 import { notifyError, notifySuccess } from '@/lib/toast';
 import ProductGrid from './components/ProductGrid';
 import ProductModal from './components/ProductModal';
@@ -13,31 +13,35 @@ import { getCategories } from '@/lib/api/category';
 import ProductFilters from './components/ProductFilters';
 import { ProductPayload } from '@/lib/api/product';
 
+const EMPTY_FORM: ProductPayload = {
+  name: '',
+  brand: '',
+  description: '',
+  price: 0,
+  discount: 0,
+  category: '',
+  images: [],
+  videos: [],
+  inStock: true,
+  secondHand: false,
+  isBanner: false,
+  isAd: false,
+  isPopup: false,
+  bannerText: '',
+  adText: '',
+  popupText: '',
+  rating: 0,
+  ratingCount: 0,
+  reviews: 0,
+  options: [],
+  variants: [],
+};
+
 export default function AdminProductPage() {
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [isEditing, setIsEditing] = useState(false);
   const [showCreateForm, setShowCreateForm] = useState(false);
-  const [formData, setFormData] = useState<ProductPayload>({
-    name: '',
-    brand: '',
-    description: '',
-    price: 0,
-    discount: 0,
-    category: '',
-    images: [],
-    videos: [],
-    inStock: true,
-    secondHand: false,
-    isBanner: false,
-    isAd: false,
-    isPopup: false,
-    bannerText: '',
-    adText: '',
-    popupText: '',
-    rating: 0,
-    ratingCount: 0,
-    reviews: 0
-  });
+  const [formData, setFormData] = useState<ProductPayload>(EMPTY_FORM);
 
   // Media upload state
   const [selectedImages, setSelectedImages] = useState<File[]>([]);
@@ -47,7 +51,6 @@ export default function AdminProductPage() {
   const [uploadingMedia, setUploadingMedia] = useState(false);
   const [categories, setCategories] = useState<Category[]>([]);
 
-  // Filter and pagination state
   const [filters, setFilters] = useState({
     page: 1,
     search: "",
@@ -72,23 +75,10 @@ export default function AdminProductPage() {
   const { loading: allLoading, error: allError, success: allSuccess, run: runAll, data: allData } = useApi(getAllProducts);
   const { loading: updateLoading, error: updateError, success: updateSuccess, run: runUpdate } = useApi(updateProduct);
   const { loading: deleteLoading, error: deleteError, success: deleteSuccess, run: runDelete } = useApi(deleteProduct);
-
   const { loading: fetchLoading, run: runFetch } = useApi(getCategories);
 
-  const fetchCategories = async () => {
-    const data = await runFetch();
-    if (data) setCategories(data);
-  };
-
-  // Initialize categories on mount
-  useEffect(() => {
-    fetchCategories();
-  }, []);
-
-  // Fetch products when filters change
-  useEffect(() => {
-    fetchProducts();
-  }, [filters]);
+  useEffect(() => { runFetch().then(data => { if (data) setCategories(data); }); }, []);
+  useEffect(() => { fetchProducts(); }, [filters]);
 
   const fetchProducts = () => {
     runAll({
@@ -121,27 +111,7 @@ export default function AdminProductPage() {
   }, [createSuccess, updateSuccess, deleteSuccess]);
 
   const resetForm = () => {
-    setFormData({
-      name: '',
-      brand: '',
-      description: '',
-      price: 0,
-      discount: 0,
-      category: '',
-      images: [],
-      videos: [],
-      inStock: true,
-      secondHand: false,
-      isBanner: false,
-      isAd: false,
-      isPopup: false,
-      bannerText: '',
-      adText: '',
-      popupText: '',
-      rating: 0,
-      ratingCount: 0,
-      reviews: 0
-    });
+    setFormData(EMPTY_FORM);
     setSelectedImages([]);
     setSelectedVideos([]);
     setImagePreviews([]);
@@ -149,82 +119,57 @@ export default function AdminProductPage() {
   };
 
   const updateFilter = (key: keyof typeof filters, value: any) => {
-    setFilters(prev => ({
-      ...prev,
-      [key]: value,
-      page: key !== 'page' ? 1 : value
-    }));
-  };
-
-  const handleSearch = () => {
-    updateFilter("search", searchInput);
+    setFilters(prev => ({ ...prev, [key]: value, page: key !== 'page' ? 1 : value }));
   };
 
   const clearFilters = () => {
     setFilters({
-      page: 1,
-      search: "",
-      selectedCategory: "",
-      sortBy: "createdAt",
-      sortOrder: "desc",
-      minPrice: undefined,
-      maxPrice: undefined,
-      inStock: undefined,
-      secondHand: undefined,
-      minRating: undefined,
-      discounted: undefined,
-      isBanner: undefined,
-      isAd: undefined,
-      isPopup: undefined,
+      page: 1, search: "", selectedCategory: "", sortBy: "createdAt", sortOrder: "desc",
+      minPrice: undefined, maxPrice: undefined, inStock: undefined, secondHand: undefined,
+      minRating: undefined, discounted: undefined, isBanner: undefined, isAd: undefined, isPopup: undefined,
     });
     setSearchInput("");
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value, type } = e.target;
-
     if (type === 'checkbox') {
       const checked = (e.target as HTMLInputElement).checked;
       setFormData(prev => ({ ...prev, [name]: checked }));
-    } else if (name === 'price' || name === 'rating' || name === 'discount') {
+    } else if (['price', 'rating', 'discount'].includes(name)) {
       setFormData(prev => ({ ...prev, [name]: parseFloat(value) || 0 }));
-    } else if (name === 'ratingCount' || name === 'reviews') {
+    } else if (['ratingCount', 'reviews'].includes(name)) {
       setFormData(prev => ({ ...prev, [name]: parseInt(value) || 0 }));
     } else {
       setFormData(prev => ({ ...prev, [name]: value }));
     }
   };
 
-  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files.length > 0) {
-      const files = Array.from(e.target.files);
-      setSelectedImages(prev => [...prev, ...files]);
+  // Called by OptionsVariantsEditor whenever options or variants change
+  const handleOptionsVariantsChange = (options: ProductOption[], variants: ProductVariant[]) => {
+    setFormData(prev => ({ ...prev, options, variants }));
+  };
 
-      // Create previews
-      files.forEach(file => {
-        const reader = new FileReader();
-        reader.onloadend = () => {
-          setImagePreviews(prev => [...prev, reader.result as string]);
-        };
-        reader.readAsDataURL(file);
-      });
-    }
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (!e.target.files) return;
+    const files = Array.from(e.target.files);
+    setSelectedImages(prev => [...prev, ...files]);
+    files.forEach(file => {
+      const reader = new FileReader();
+      reader.onloadend = () => setImagePreviews(prev => [...prev, reader.result as string]);
+      reader.readAsDataURL(file);
+    });
   };
 
   const handleVideoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files.length > 0) {
-      const files = Array.from(e.target.files);
-      setSelectedVideos(prev => [...prev, ...files]);
-
-      // Create previews
-      files.forEach(file => {
-        const reader = new FileReader();
-        reader.onloadend = () => {
-          setVideoPreviews(prev => [...prev, reader.result as string]);
-        };
-        reader.readAsDataURL(file);
-      });
-    }
+    if (!e.target.files) return;
+    const files = Array.from(e.target.files);
+    setSelectedVideos(prev => [...prev, ...files]);
+    files.forEach(file => {
+      const reader = new FileReader();
+      reader.onloadend = () => setVideoPreviews(prev => [...prev, reader.result as string]);
+      reader.readAsDataURL(file);
+    });
   };
 
   const removeImagePreview = (index: number) => {
@@ -238,13 +183,9 @@ export default function AdminProductPage() {
   };
 
   const removeExistingMedia = (mediaId: string, type: 'images' | 'videos') => {
-    setFormData(prev => ({
-      ...prev,
-      [type]: prev[type]?.filter(id => id !== mediaId) || []
-    }));
+    setFormData(prev => ({ ...prev, [type]: (prev[type] || []).filter(id => id !== mediaId) }));
   };
 
-  // Error Messages
   useEffect(() => {
     if (allError || createError || updateError || deleteError) {
       notifyError(allError || createError || updateError || deleteError);
@@ -255,34 +196,23 @@ export default function AdminProductPage() {
     try {
       setUploadingMedia(true);
 
-      // Upload images
-      let imageIds: string[] = [];
-      if (selectedImages.length > 0) {
-        const uploadedImages = await uploadMedia(selectedImages);
-        imageIds = uploadedImages.map(img => img._id);
-      }
+      const imageIds = selectedImages.length > 0
+        ? (await uploadMedia(selectedImages)).map(img => img._id)
+        : [];
 
-      // Upload videos
-      let videoIds: string[] = [];
-      if (selectedVideos.length > 0) {
-        const uploadedVideos = await uploadMedia(selectedVideos);
-        videoIds = uploadedVideos.map(vid => vid._id);
-      }
+      const videoIds = selectedVideos.length > 0
+        ? (await uploadMedia(selectedVideos)).map(vid => vid._id)
+        : [];
 
       setUploadingMedia(false);
 
-      // Create product with media IDs
-      await runCreate({
-        ...formData,
-        images: imageIds,
-        videos: videoIds
-      });
+      await runCreate({ ...formData, images: imageIds, videos: videoIds });
 
       if (createSuccess) {
         notifySuccess("Product created successfully!");
         setFilters(prev => ({ ...prev, page: 1 }));
       }
-    } catch (error) {
+    } catch {
       setUploadingMedia(false);
       notifyError("Failed to upload media or create product");
     }
@@ -290,37 +220,27 @@ export default function AdminProductPage() {
 
   const handleUpdate = async () => {
     if (!selectedProduct) return;
-
     try {
       setUploadingMedia(true);
 
-      // Upload new images if any
-      let newImageIds: string[] = [];
-      if (selectedImages.length > 0) {
-        const uploadedImages = await uploadMedia(selectedImages);
-        newImageIds = uploadedImages.map(img => img._id);
-      }
+      const newImageIds = selectedImages.length > 0
+        ? (await uploadMedia(selectedImages)).map(img => img._id)
+        : [];
 
-      // Upload new videos if any
-      let newVideoIds: string[] = [];
-      if (selectedVideos.length > 0) {
-        const uploadedVideos = await uploadMedia(selectedVideos);
-        newVideoIds = uploadedVideos.map(vid => vid._id);
-      }
+      const newVideoIds = selectedVideos.length > 0
+        ? (await uploadMedia(selectedVideos)).map(vid => vid._id)
+        : [];
 
       setUploadingMedia(false);
 
-      // Update product with combined media IDs
       await runUpdate(selectedProduct._id, {
         ...formData,
-        images: [...formData.images, ...newImageIds],
-        videos: [...(formData.videos || []), ...newVideoIds]
+        images: [...(formData.images || []), ...newImageIds],
+        videos: [...(formData.videos || []), ...newVideoIds],
       });
 
-      if (updateSuccess) {
-        notifySuccess("Product updated successfully!");
-      }
-    } catch (error) {
+      if (updateSuccess) notifySuccess("Product updated successfully!");
+    } catch {
       setUploadingMedia(false);
       notifyError("Failed to upload media or update product");
     }
@@ -347,7 +267,9 @@ export default function AdminProductPage() {
       popupText: product.popupText || '',
       rating: product.rating,
       ratingCount: product.ratingCount,
-      reviews: product.reviews || 0
+      reviews: product.reviews || 0,
+      options: product.options || [],     // ← populate options
+      variants: product.variants || [],   // ← populate variants
     });
     setIsEditing(true);
     setShowCreateForm(false);
@@ -358,12 +280,9 @@ export default function AdminProductPage() {
   };
 
   const handleDelete = async (productId: string) => {
-    if (window.confirm('Are you sure you want to delete this product?')) {
-      await runDelete(productId);
-      if (deleteSuccess) {
-        notifySuccess("Product deleted successfully!");
-      }
-    }
+    if (!window.confirm('Are you sure you want to delete this product?')) return;
+    await runDelete(productId);
+    if (deleteSuccess) notifySuccess("Product deleted successfully!");
   };
 
   const handleCancel = () => {
@@ -373,21 +292,15 @@ export default function AdminProductPage() {
     resetForm();
   };
 
-  const handlePageChange = (page: number) => {
-    updateFilter("page", page);
-  };
-
   const products = allData?.data || [];
   const total = allData?.total || 0;
   const totalPages = Math.ceil(total / limit);
-
   const hasProducts = products.length > 0;
   const showModal = showCreateForm || isEditing;
 
   return (
     <div className="min-h-screen p-4 md:p-6 bg-gray-50">
       <div className="max-w-7xl mx-auto">
-        {/* Search and Action Buttons */}
         <div className="mb-6 flex flex-col sm:flex-row gap-4">
           <button
             onClick={() => setShowCreateForm(true)}
@@ -397,7 +310,6 @@ export default function AdminProductPage() {
           </button>
         </div>
 
-        {/* Filters */}
         <ProductFilters
           filters={filters}
           searchInput={searchInput}
@@ -405,26 +317,21 @@ export default function AdminProductPage() {
           categoriesLoading={fetchLoading}
           onFilterChange={updateFilter}
           onSearchInputChange={setSearchInput}
-          onSearch={handleSearch}
+          onSearch={() => updateFilter("search", searchInput)}
           onClearFilters={clearFilters}
         />
 
-        {/* Results Count */}
-        <div className="mb-4 flex items-center justify-between">
-          <div className="text-sm text-gray-600">
-            Showing {products.length} of {total} products
-            {filters.page > 1 && ` (Page ${filters.page} of ${totalPages})`}
-          </div>
+        <div className="mb-4 text-sm text-gray-600">
+          Showing {products.length} of {total} products
+          {filters.page > 1 && ` (Page ${filters.page} of ${totalPages})`}
         </div>
 
-        {/* Loading State */}
         {allLoading && (
           <div className="flex items-center justify-center py-12">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600" />
           </div>
         )}
 
-        {/* Products Grid */}
         {hasProducts && (
           <ProductGrid
             products={products}
@@ -438,55 +345,42 @@ export default function AdminProductPage() {
           />
         )}
 
-        {/* Empty State */}
         {!hasProducts && !allLoading && (
-          <EmptyState
-            searchQuery={filters.search}
-            setShowCreateForm={setShowCreateForm}
-          />
+          <EmptyState searchQuery={filters.search} setShowCreateForm={setShowCreateForm} />
         )}
 
-        {/* Pagination Controls - Bottom */}
         {hasProducts && totalPages > 1 && (
           <div className="mt-6 flex justify-center">
             <div className="flex items-center gap-2 bg-white p-4 rounded-lg shadow-sm">
               <button
-                onClick={() => handlePageChange(filters.page - 1)}
+                onClick={() => updateFilter("page", filters.page - 1)}
                 disabled={filters.page === 1}
                 className="px-4 py-2 bg-white border border-gray-300 rounded-lg text-sm hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 Previous
               </button>
-
               <div className="flex items-center gap-1">
                 {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
-                  let pageNum;
-                  if (totalPages <= 5) {
-                    pageNum = i + 1;
-                  } else if (filters.page <= 3) {
-                    pageNum = i + 1;
-                  } else if (filters.page >= totalPages - 2) {
-                    pageNum = totalPages - 4 + i;
-                  } else {
-                    pageNum = filters.page - 2 + i;
-                  }
-
+                  let pageNum: number;
+                  if (totalPages <= 5) pageNum = i + 1;
+                  else if (filters.page <= 3) pageNum = i + 1;
+                  else if (filters.page >= totalPages - 2) pageNum = totalPages - 4 + i;
+                  else pageNum = filters.page - 2 + i;
                   return (
                     <button
                       key={pageNum}
-                      onClick={() => handlePageChange(pageNum)}
+                      onClick={() => updateFilter("page", pageNum)}
                       className={`w-10 h-10 rounded-lg text-sm transition-colors ${filters.page === pageNum ? 'bg-primary text-black' : 'bg-white border border-gray-300 hover:bg-gray-50'}`}
                     >
                       {pageNum}
                     </button>
                   );
                 })}
-
                 {totalPages > 5 && filters.page < totalPages - 2 && (
                   <>
                     <span className="mx-1">...</span>
                     <button
-                      onClick={() => handlePageChange(totalPages)}
+                      onClick={() => updateFilter("page", totalPages)}
                       className={`w-10 h-10 rounded-lg text-sm ${filters.page === totalPages ? 'bg-primary text-black' : 'bg-white border border-gray-300 hover:bg-gray-50'}`}
                     >
                       {totalPages}
@@ -494,9 +388,8 @@ export default function AdminProductPage() {
                   </>
                 )}
               </div>
-
               <button
-                onClick={() => handlePageChange(filters.page + 1)}
+                onClick={() => updateFilter("page", filters.page + 1)}
                 disabled={filters.page === totalPages}
                 className="px-4 py-2 bg-white border border-gray-300 rounded-lg text-sm hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
               >
@@ -506,7 +399,6 @@ export default function AdminProductPage() {
           </div>
         )}
 
-        {/* Product Modal */}
         {showModal && (
           <ProductModal
             isEditing={isEditing}
@@ -518,6 +410,7 @@ export default function AdminProductPage() {
             removeImagePreview={removeImagePreview}
             removeVideoPreview={removeVideoPreview}
             removeExistingMedia={removeExistingMedia}
+            onOptionsVariantsChange={handleOptionsVariantsChange}
             categories={categories}
             imagePreviews={imagePreviews}
             videoPreviews={videoPreviews}

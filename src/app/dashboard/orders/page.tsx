@@ -80,9 +80,9 @@ const OrdersPage = () => {
 
   const formatDate = (date?: string) => {
     if (!date) return 'N/A';
-    return new Date(date).toLocaleDateString('en-US', { 
-      year: 'numeric', 
-      month: 'short', 
+    return new Date(date).toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'short',
       day: 'numeric',
       hour: '2-digit',
       minute: '2-digit'
@@ -90,9 +90,9 @@ const OrdersPage = () => {
   };
 
   const formatCurrency = (amount: number) => {
-    return new Intl.NumberFormat('en-NG', { 
-      style: 'currency', 
-      currency: 'NGN' 
+    return new Intl.NumberFormat('en-NG', {
+      style: 'currency',
+      currency: 'NGN'
     }).format(amount);
   };
 
@@ -303,12 +303,37 @@ const OrdersPage = () => {
                   <h3 className="text-lg font-semibold text-gray-900 mb-3">Order Items</h3>
                   <div className="space-y-2">
                     {selectedOrder.items.map((item, idx) => (
-                      <div key={idx} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
-                        <div>
-                          <p className="text-sm font-medium text-gray-900">{item.product.name}</p>
-                          <p className="text-sm text-gray-500">Qty: {item.quantity}</p>
+                      <div key={idx} className="p-3 bg-gray-50 rounded-lg">
+                        <div className="flex items-start justify-between gap-4">
+                          <div className="flex-1 min-w-0">
+                            <p className="text-sm font-medium text-gray-900">{item.product.name}</p>
+
+                            {/* Variant options (e.g. Color: Red, Size: L) */}
+                            {item.selectedOptions && item.selectedOptions.length > 0 && (
+                              <div className="flex flex-wrap gap-1 mt-1">
+                                {item.selectedOptions.map(opt => (
+                                  <span
+                                    key={opt.optionId}
+                                    className="inline-block text-xs bg-white border border-gray-200 text-gray-600 px-2 py-0.5 rounded"
+                                  >
+                                    <span className="text-gray-400">{opt.optionName}:</span>{' '}
+                                    {opt.valueName}
+                                  </span>
+                                ))}
+                              </div>
+                            )}
+
+                            {/* SKU code if a variant was selected */}
+                            {item.skuCode && (
+                              <p className="text-xs text-gray-400 font-mono mt-0.5">SKU: {item.skuCode}</p>
+                            )}
+
+                            <p className="text-sm text-gray-500 mt-1">Qty: {item.quantity}</p>
+                          </div>
+                          <span className="text-sm font-medium text-gray-900 whitespace-nowrap">
+                            {formatCurrency(item.price * item.quantity)}
+                          </span>
                         </div>
-                        <span className="text-sm font-medium text-gray-900">{formatCurrency(item.price * item.quantity)}</span>
                       </div>
                     ))}
                   </div>
